@@ -12,9 +12,13 @@
                         <field name="statement_type" widget="radio"/>
                     </group>
                     <group string="Options">
-                        <field name="date_from"
+                        <field name="period_filter"
                                invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
+                        <field name="date_from"
+                               invisible="statement_type in ('customer_overdue', 'vendor_overdue') or period_filter != 'custom'"/>
                         <field name="date_to"
+                               invisible="statement_type in ('customer_overdue', 'vendor_overdue') or period_filter != 'custom'"/>
+                        <field name="payment_status_filter"
                                invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
                         <field name="include_paid"
                                invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
@@ -40,6 +44,11 @@
                             type="object"
                             class="btn-secondary"
                             icon="fa-envelope"/>
+                    <button name="action_export_xlsx"
+                            string="Export XLS"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-file-excel-o"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

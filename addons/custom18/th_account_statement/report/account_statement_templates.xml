@@ -98,6 +98,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td colspan="6" style="font-weight:bold;">Opening Balance</td>
+                                        <td style="text-align:right; font-weight:bold;">
+                                            <t t-esc="formatLang(data['opening_balance'], currency_obj=data['currency'])"/>
+                                        </td>
+                                    </tr>
                                     <t t-foreach="data['invoices']" t-as="line">
                                         <tr t-attf-style="background-color: {{ '#fff5f5' if line['is_refund'] else 'white' }}">
                                             <td>

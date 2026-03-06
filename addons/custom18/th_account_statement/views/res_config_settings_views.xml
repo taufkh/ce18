@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_inherit_th_account_statement" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.th.account.statement</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Account Statement">
+                    <setting string="Show Customer Statement Menu in Portal">
+                        <field name="show_statement_portal_menu"/>
+                    </setting>
+
+                    <setting string="Customer Statement Mail Log History">
+                        <field name="enable_customer_mail_log"/>
+                    </setting>
+                    <setting string="Customer Overdue Statement Mail Log History">
+                        <field name="enable_overdue_mail_log"/>
+                    </setting>
+
+                    <setting string="Customer Statement Auto Send">
+                        <field name="enable_customer_auto_send"/>
+                        <div class="content-group" invisible="not enable_customer_auto_send">
+                            <div class="mt16">
+                                <label for="customer_auto_send_frequency"/>
+                                <field name="customer_auto_send_frequency"/>
+                            </div>
+                            <div class="mt16">
+                                <label for="customer_mail_template_id"/>
+                                <field name="customer_mail_template_id"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting string="Customer Overdue Statement Auto Send">
+                        <field name="enable_overdue_auto_send"/>
+                        <div class="content-group" invisible="not enable_overdue_auto_send">
+                            <div class="mt16">
+                                <label for="overdue_auto_send_frequency"/>
+                                <field name="overdue_auto_send_frequency"/>
+                            </div>
+                            <div class="mt16">
+                                <label for="overdue_mail_template_id"/>
+                                <field name="overdue_mail_template_id"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting string="Filter Only Unpaid">
+                        <field name="filter_only_unpaid"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

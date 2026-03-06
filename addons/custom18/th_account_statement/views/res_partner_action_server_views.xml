@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_partner_send_statement" model="ir.actions.server">
+        <field name="name">Send Statement</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_send_customer_statement()
+        </field>
+    </record>
+
+    <record id="action_partner_send_overdue_statement" model="ir.actions.server">
+        <field name="name">Send Overdue Statement</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_send_overdue_customer_statement()
+        </field>
+    </record>
+
+    <record id="action_partner_print_statement" model="ir.actions.server">
+        <field name="name">Print Customer Statement</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_customer_statement()
+        </field>
+    </record>
+
+    <record id="action_partner_print_overdue_statement" model="ir.actions.server">
+        <field name="name">Print Overdue Customer Statement</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_overdue_customer_statement()
+        </field>
+    </record>
+
+    <record id="action_partner_print_filtered_statement" model="ir.actions.server">
+        <field name="name">Print Customer Statement Filter By Date</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_filter_customer_statement()
+        </field>
+    </record>
+
+    <record id="action_partner_print_statement_xlsx" model="ir.actions.server">
+        <field name="name">Print Customer Statement XLS</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_customer_statement_xlsx()
+        </field>
+    </record>
+
+    <record id="action_partner_print_overdue_statement_xlsx" model="ir.actions.server">
+        <field name="name">Print Overdue Customer Statement XLS</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_overdue_customer_statement_xlsx()
+        </field>
+    </record>
+
+    <record id="action_partner_print_filtered_statement_xlsx" model="ir.actions.server">
+        <field name="name">Print Customer Statement Filter By Date XLS</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_print_filter_customer_statement_xlsx()
+        </field>
+    </record>
+
+</odoo>

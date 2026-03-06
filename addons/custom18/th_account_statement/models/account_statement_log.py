@@ -15,23 +15,49 @@ class AccountStatementLog(models.Model):
 
     name = fields.Char('Reference', compute='_compute_name', store=True)
     partner_id = fields.Many2one(
-        'res.partner', string='Partner', required=True, ondelete='cascade'
+        'res.partner', string='Partner', required=True, ondelete='cascade', index=True
     )
     statement_type = fields.Selection(
-        STATEMENT_TYPE_SELECTION, string='Statement Type', required=True
+        STATEMENT_TYPE_SELECTION, string='Statement Type', required=True, index=True
     )
-    date_from = fields.Date('Date From')
-    date_to = fields.Date('Date To')
-    sent_date = fields.Datetime('Sent Date', default=fields.Datetime.now, required=True)
+    date_from = fields.Date('Date From', index=True)
+    date_to = fields.Date('Date To', index=True)
+    period_filter = fields.Selection(
+        selection=lambda self: self.env['account.statement.engine'].PERIOD_FILTER_SELECTION,
+        string='Period Filter',
+        index=True,
+    )
+    payment_status_filter = fields.Selection(
+        selection=lambda self: self.env['account.statement.engine'].PAYMENT_STATUS_SELECTION,
+        string='Payment Status',
+        index=True,
+    )
+    sent_date = fields.Datetime(
+        'Sent Date', default=fields.Datetime.now, required=True, index=True
+    )
     sent_by = fields.Many2one(
-        'res.users', string='Sent By', default=lambda self: self.env.user
+        'res.users', string='Sent By', default=lambda self: self.env.user, index=True
     )
     email_to = fields.Char('Sent To (Email)')
+    mail_subject = fields.Char('Mail Subject')
+    mail_mail_id = fields.Many2one('mail.mail', string='Mail Reference')
+    mail_status = fields.Selection(
+        [
+            ('outgoing', 'Outgoing'),
+            ('sent', 'Sent'),
+            ('received', 'Received'),
+            ('exception', 'Delivery Failed'),
+            ('cancel', 'Cancelled'),
+        ],
+        string='Mail Sent Status',
+        index=True,
+    )
     state = fields.Selection(
         [('sent', 'Sent'), ('failed', 'Failed')],
         string='Status',
         default='sent',
         required=True,
+        index=True,
     )
     notes = fields.Text('Notes')
 

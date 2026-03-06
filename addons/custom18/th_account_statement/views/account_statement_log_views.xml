@@ -10,9 +10,13 @@
                 <field name="sent_date"/>
                 <field name="partner_id"/>
                 <field name="statement_type"/>
+                <field name="period_filter"/>
+                <field name="payment_status_filter"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
+                <field name="mail_subject"/>
                 <field name="email_to"/>
+                <field name="mail_status"/>
                 <field name="sent_by"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'sent'"
@@ -35,13 +39,18 @@
                         <group string="Statement Info">
                             <field name="partner_id"/>
                             <field name="statement_type"/>
+                            <field name="period_filter"/>
+                            <field name="payment_status_filter"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                         </group>
                         <group string="Delivery Info">
                             <field name="sent_date"/>
                             <field name="sent_by"/>
+                            <field name="mail_mail_id"/>
+                            <field name="mail_subject"/>
                             <field name="email_to"/>
+                            <field name="mail_status"/>
                             <field name="state" widget="badge"
                                    decoration-success="state == 'sent'"
                                    decoration-danger="state == 'failed'"/>
@@ -64,16 +73,21 @@
                 <field name="partner_id"/>
                 <field name="email_to"/>
                 <field name="sent_by"/>
+                <field name="mail_status"/>
                 <filter string="Sent" name="filter_sent" domain="[('state', '=', 'sent')]"/>
                 <filter string="Failed" name="filter_failed" domain="[('state', '=', 'failed')]"/>
+                <filter string="Delivery Failed" name="filter_delivery_failed" domain="[('mail_status', '=', 'exception')]"/>
                 <separator/>
                 <filter string="Customer Statement" name="filter_customer"
                         domain="[('statement_type', '=', 'customer')]"/>
+                <filter string="Customer Overdue Statement" name="filter_customer_overdue"
+                        domain="[('statement_type', '=', 'customer_overdue')]"/>
                 <filter string="Vendor Statement" name="filter_vendor"
                         domain="[('statement_type', '=', 'vendor')]"/>
                 <group expand="0" string="Group By">
                     <filter string="Partner" name="group_partner" context="{'group_by': 'partner_id'}"/>
                     <filter string="Statement Type" name="group_type" context="{'group_by': 'statement_type'}"/>
+                    <filter string="Mail Sent Status" name="group_mail_status" context="{'group_by': 'mail_status'}"/>
                     <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="Sent By" name="group_sent_by" context="{'group_by': 'sent_by'}"/>
                 </group>

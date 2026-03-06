@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_partner_form_inherit_statement_tab" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.statement.tab</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Customer Statement">
+                    <field name="company_currency_id" invisible="1"/>
+
+                    <group string="Customer Statement Filters">
+                        <group>
+                            <field name="statement_period_filter"/>
+                            <field name="statement_date_from" invisible="statement_period_filter != 'custom'"/>
+                            <field name="statement_date_to" invisible="statement_period_filter != 'custom'"/>
+                        </group>
+                        <group>
+                            <field name="statement_payment_status_filter"/>
+                            <field name="statement_include_paid"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <div class="oe_button_box" name="statement_button_box">
+                            <button name="action_get_customer_statement" type="object" class="btn-primary" string="Get Customer Statement"/>
+                            <button name="action_send_filter_customer_statement" type="object" class="btn-secondary" string="Send Filter Customer Statement"/>
+                            <button name="action_print_filter_customer_statement" type="object" class="btn-secondary" string="Print Filter Customer Statement"/>
+                            <button name="action_print_filter_customer_statement_xlsx" type="object" class="btn-secondary" string="Print Filter Customer Statement XLS"/>
+                        </div>
+                    </group>
+
+                    <group string="Customer Statements By Filter">
+                        <field name="statement_move_ids" nolabel="1">
+                            <list create="false" delete="false" edit="false">
+                                <field name="name" string="Invoice Number"/>
+                                <field name="invoice_date"/>
+                                <field name="invoice_date_due"/>
+                                <field name="amount_total"/>
+                                <field name="amount_residual"/>
+                                <field name="payment_state"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <group string="Customer Statement Summary">
+                        <group>
+                            <field name="statement_opening_balance"/>
+                            <field name="statement_total_amount"/>
+                            <field name="statement_total_paid"/>
+                        </group>
+                        <group>
+                            <field name="statement_total_balance"/>
+                            <field name="statement_closing_balance"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <div class="oe_button_box" name="statement_regular_button_box">
+                            <button name="action_send_customer_statement" type="object" class="btn-secondary" string="Send Customer Statement"/>
+                            <button name="action_print_customer_statement" type="object" class="btn-secondary" string="Print Customer Statement"/>
+                            <button name="action_print_customer_statement_xlsx" type="object" class="btn-secondary" string="Print Customer Statement XLS"/>
+                        </div>
+                    </group>
+
+                    <group string="Customer Overdue Statements">
+                        <field name="statement_overdue_move_ids" nolabel="1">
+                            <list create="false" delete="false" edit="false">
+                                <field name="name" string="Invoice Number"/>
+                                <field name="invoice_date"/>
+                                <field name="invoice_date_due"/>
+                                <field name="amount_total"/>
+                                <field name="amount_residual"/>
+                                <field name="payment_state"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <group string="Overdue Summary">
+                        <group>
+                            <field name="overdue_total_amount"/>
+                            <field name="overdue_total_paid"/>
+                            <field name="overdue_total_balance"/>
+                        </group>
+                        <group>
+                            <field name="ageing_0_30"/>
+                            <field name="ageing_31_60"/>
+                            <field name="ageing_61_90"/>
+                            <field name="ageing_91_plus"/>
+                            <field name="ageing_total"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <div class="oe_button_box" name="statement_overdue_button_box">
+                            <button name="action_send_overdue_customer_statement" type="object" class="btn-secondary" string="Send Overdue Customer Statement"/>
+                            <button name="action_print_overdue_customer_statement" type="object" class="btn-secondary" string="Print Overdue Customer Statement"/>
+                            <button name="action_print_overdue_customer_statement_xlsx" type="object" class="btn-secondary" string="Print Overdue Customer Statement XLS"/>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
