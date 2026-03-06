@@ -1,0 +1,428 @@
+<odoo>
+    <record id="c18_dms_department_corporate" model="hr.department">
+        <field name="name">Corporate DMS</field>
+    </record>
+
+    <record id="c18_project_alpha" model="project.project">
+        <field name="name">Project Alpha</field>
+    </record>
+
+    <record id="c18_project_beta" model="project.project">
+        <field name="name">Project Beta</field>
+    </record>
+
+    <record id="c18_dms_type_invoice" model="c18.dms.type">
+        <field name="name">Invoice</field>
+        <field name="default_review_sla_days">2</field>
+        <field name="review_interval_days">90</field>
+        <field name="retention_days">730</field>
+    </record>
+
+    <record id="c18_dms_type_spk" model="c18.dms.type">
+        <field name="name">SPK</field>
+        <field name="default_review_sla_days">3</field>
+        <field name="review_interval_days">120</field>
+        <field name="retention_days">365</field>
+        <field name="auto_archive_on_retention">1</field>
+    </record>
+
+    <record id="c18_dms_type_contract" model="c18.dms.type">
+        <field name="name">Contract</field>
+        <field name="default_review_sla_days">5</field>
+        <field name="review_interval_days">180</field>
+        <field name="retention_days">1095</field>
+    </record>
+
+    <record id="c18_dms_type_policy_memo" model="c18.dms.type">
+        <field name="name">Policy Memo</field>
+        <field name="default_review_sla_days">2</field>
+        <field name="review_interval_days">1</field>
+        <field name="retention_days">15</field>
+    </record>
+
+    <record id="c18_dms_tag_urgent" model="c18.dms.tag">
+        <field name="name">Urgent</field>
+        <field name="color">1</field>
+    </record>
+
+    <record id="c18_dms_tag_legal" model="c18.dms.tag">
+        <field name="name">Legal</field>
+        <field name="color">2</field>
+    </record>
+
+    <record id="c18_dms_tag_finance" model="c18.dms.tag">
+        <field name="name">Finance</field>
+        <field name="color">3</field>
+    </record>
+
+    <record id="c18_dms_tag_policy" model="c18.dms.tag">
+        <field name="name">Policy</field>
+        <field name="color">4</field>
+    </record>
+
+    <record id="c18_dms_tag_audit" model="c18.dms.tag">
+        <field name="name">Audit</field>
+        <field name="color">5</field>
+    </record>
+
+    <record id="c18_dms_directory_root" model="c18.dms.directory">
+        <field name="name">Corporate Vault</field>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_urgent')])]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="description">Top-level shared repository for controlled business documents.</field>
+    </record>
+
+    <record id="c18_dms_directory_alpha" model="c18.dms.directory">
+        <field name="name">Project Alpha</field>
+        <field name="parent_id" ref="c18_dms_directory_root"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_finance')])]"/>
+    </record>
+
+    <record id="c18_dms_directory_beta" model="c18.dms.directory">
+        <field name="name">Project Beta</field>
+        <field name="parent_id" ref="c18_dms_directory_root"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_legal')])]"/>
+    </record>
+
+    <record id="c18_dms_directory_compliance" model="c18.dms.directory">
+        <field name="name">Compliance and Governance</field>
+        <field name="parent_id" ref="c18_dms_directory_root"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_policy'), ref('c18_dms_tag_audit')])]"/>
+        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="c18_attachment_alpha_invoice" model="ir.attachment">
+        <field name="name">alpha_invoice_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QWxwaGEgSW52b2ljZSB2MSBkZW1vIGRvY3VtZW50Lg==</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_beta_contract" model="ir.attachment">
+        <field name="name">beta_contract_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QmV0YSBDb250cmFjdCB2MSBkZW1vIGRvY3VtZW50Lg==</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_alpha_spk" model="ir.attachment">
+        <field name="name">alpha_spk_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QWxwaGEgU1BLIHYxIGRlbW8gZG9jdW1lbnQu</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_beta_invoice" model="ir.attachment">
+        <field name="name">beta_invoice_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QmV0YSBJbnZvaWNlIHYxIGRlbW8gZG9jdW1lbnQu</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_alpha_contract" model="ir.attachment">
+        <field name="name">alpha_contract_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QWxwaGEgQ29udHJhY3QgdjEgZGVtbyBkb2N1bWVudC4=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_beta_spk" model="ir.attachment">
+        <field name="name">beta_spk_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QmV0YSBTUEsgdjEgZGVtbyBkb2N1bWVudC4=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_beta_contract_v2_old" model="ir.attachment">
+        <field name="name">beta_contract_v0.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">QmV0YSBDb250cmFjdCBvbGQgdmludGFnZSBkb2N1bWVudC4=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_governance_policy" model="ir.attachment">
+        <field name="name">governance_policy_v1.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">R292ZXJuYW5jZSBQb2xpY3kgdjE=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_vendor_nda" model="ir.attachment">
+        <field name="name">vendor_nda_review.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">VmVuZG9yIE5EQSByZXZpZXcgZHJhZnQ=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_audit_pack" model="ir.attachment">
+        <field name="name">quarterly_audit_pack.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">UXVhcnRlcmx5IGF1ZGl0IHBhY2s=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_onboarding_sop" model="ir.attachment">
+        <field name="name">onboarding_sop_v2.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">T25ib2FyZGluZyBTT1AgdjI=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_quality_archive" model="ir.attachment">
+        <field name="name">quality_archive_checklist.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">UXVhbGl0eSBhcmNoaXZlIGNoZWNrbGlzdA==</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_attachment_policy_memo" model="ir.attachment">
+        <field name="name">policy_memo_control_update.txt</field>
+        <field name="type">binary</field>
+        <field name="datas">UG9saWN5IG1lbW8gY29udHJvbCB1cGRhdGU=</field>
+        <field name="mimetype">text/plain</field>
+    </record>
+
+    <record id="c18_dms_document_alpha_invoice" model="c18.dms.document">
+        <field name="name">Alpha Invoice March</field>
+        <field name="directory_id" ref="c18_dms_directory_alpha"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_alpha"/>
+        <field name="doc_type_id" ref="c18_dms_type_invoice"/>
+        <field name="attachment_id" ref="c18_attachment_alpha_invoice"/>
+        <field name="shared_partner_ids" eval="[(4, ref('base.partner_admin'))]"/>
+        <field name="allow_external_share">1</field>
+        <field name="share_active_until">2026-12-31</field>
+        <field name="state">approved</field>
+        <field name="expiry_date">2026-03-20</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_finance'), ref('c18_dms_tag_urgent')])]"/>
+    </record>
+
+    <record id="c18_dms_document_beta_contract" model="c18.dms.document">
+        <field name="name">Beta Main Contract</field>
+        <field name="directory_id" ref="c18_dms_directory_beta"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_beta"/>
+        <field name="doc_type_id" ref="c18_dms_type_contract"/>
+        <field name="attachment_id" ref="c18_attachment_beta_contract"/>
+        <field name="state">in_review</field>
+        <field name="expiry_date">2026-05-15</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_legal')])]"/>
+    </record>
+
+    <record id="c18_dms_document_alpha_spk" model="c18.dms.document">
+        <field name="name">Alpha Work Order</field>
+        <field name="directory_id" ref="c18_dms_directory_alpha"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_alpha"/>
+        <field name="doc_type_id" ref="c18_dms_type_spk"/>
+        <field name="attachment_id" ref="c18_attachment_alpha_spk"/>
+        <field name="state">approved</field>
+        <field name="expiry_date">2026-04-10</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_urgent')])]"/>
+    </record>
+
+    <record id="c18_dms_document_beta_invoice" model="c18.dms.document">
+        <field name="name">Beta Invoice February</field>
+        <field name="directory_id" ref="c18_dms_directory_beta"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_beta"/>
+        <field name="doc_type_id" ref="c18_dms_type_invoice"/>
+        <field name="attachment_id" ref="c18_attachment_beta_invoice"/>
+        <field name="state">approved</field>
+        <field name="expiry_date">2026-03-06</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_finance')])]"/>
+    </record>
+
+    <record id="c18_dms_document_alpha_contract" model="c18.dms.document">
+        <field name="name">Alpha Vendor Contract</field>
+        <field name="directory_id" ref="c18_dms_directory_alpha"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_alpha"/>
+        <field name="doc_type_id" ref="c18_dms_type_contract"/>
+        <field name="attachment_id" ref="c18_attachment_alpha_contract"/>
+        <field name="state">in_review</field>
+        <field name="expiry_date">2026-03-12</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_legal'), ref('c18_dms_tag_urgent')])]"/>
+    </record>
+
+    <record id="c18_dms_document_beta_spk" model="c18.dms.document">
+        <field name="name">Beta Work Order</field>
+        <field name="directory_id" ref="c18_dms_directory_beta"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_beta"/>
+        <field name="doc_type_id" ref="c18_dms_type_spk"/>
+        <field name="attachment_id" ref="c18_attachment_beta_spk"/>
+        <field name="state">draft</field>
+        <field name="expiry_date">2026-04-28</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_urgent')])]"/>
+    </record>
+
+    <record id="c18_dms_document_governance_policy" model="c18.dms.document">
+        <field name="name">Corporate Governance Policy 2026</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="doc_type_id" ref="c18_dms_type_contract"/>
+        <field name="attachment_id" ref="c18_attachment_governance_policy"/>
+        <field name="state">approved</field>
+        <field name="allow_external_share">1</field>
+        <field name="share_active_until">2026-03-03</field>
+        <field name="expiry_date">2026-12-31</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2026-02-20 08:30:00</field>
+        <field name="supervisor_approved_by_id" ref="base.user_admin"/>
+        <field name="supervisor_approved_date">2026-02-22 11:00:00</field>
+        <field name="manager_approved_by_id" ref="base.user_admin"/>
+        <field name="manager_approved_date">2026-02-24 14:10:00</field>
+        <field name="last_review_date">2025-09-01</field>
+        <field name="next_review_date">2026-03-01</field>
+        <field name="retention_due_date">2027-09-01</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_policy'), ref('c18_dms_tag_legal')])]"/>
+    </record>
+
+    <record id="c18_dms_document_vendor_nda_review" model="c18.dms.document">
+        <field name="name">Vendor NDA Review Batch</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="project_id" ref="c18_project_beta"/>
+        <field name="doc_type_id" ref="c18_dms_type_contract"/>
+        <field name="attachment_id" ref="c18_attachment_vendor_nda"/>
+        <field name="state">supervisor_review</field>
+        <field name="review_sla_days">3</field>
+        <field name="review_deadline">2026-03-02</field>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2026-02-28 09:00:00</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_legal'), ref('c18_dms_tag_urgent')])]"/>
+    </record>
+
+    <record id="c18_dms_document_quarterly_audit_pack" model="c18.dms.document">
+        <field name="name">Quarterly Audit Evidence Pack</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="doc_type_id" ref="c18_dms_type_invoice"/>
+        <field name="attachment_id" ref="c18_attachment_audit_pack"/>
+        <field name="state">manager_review</field>
+        <field name="review_sla_days">2</field>
+        <field name="review_deadline">2026-03-03</field>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2026-03-01 10:15:00</field>
+        <field name="supervisor_approved_by_id" ref="base.user_admin"/>
+        <field name="supervisor_approved_date">2026-03-02 15:00:00</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_audit'), ref('c18_dms_tag_finance')])]"/>
+    </record>
+
+    <record id="c18_dms_document_onboarding_sop_rejected" model="c18.dms.document">
+        <field name="name">Employee Onboarding SOP Revision</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="doc_type_id" ref="c18_dms_type_spk"/>
+        <field name="attachment_id" ref="c18_attachment_onboarding_sop"/>
+        <field name="state">rejected</field>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2026-03-01 07:40:00</field>
+        <field name="rejected_by_id" ref="base.user_admin"/>
+        <field name="rejected_date">2026-03-03 09:20:00</field>
+        <field name="reject_reason">Checklist evidence for onboarding completion is incomplete.</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_policy')])]"/>
+    </record>
+
+    <record id="c18_dms_document_quality_retention_overdue" model="c18.dms.document">
+        <field name="name">Quality Checklist Legacy Archive</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="doc_type_id" ref="c18_dms_type_spk"/>
+        <field name="attachment_id" ref="c18_attachment_quality_archive"/>
+        <field name="state">approved</field>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2025-01-10 08:00:00</field>
+        <field name="supervisor_approved_by_id" ref="base.user_admin"/>
+        <field name="supervisor_approved_date">2025-01-11 10:00:00</field>
+        <field name="manager_approved_by_id" ref="base.user_admin"/>
+        <field name="manager_approved_date">2025-01-12 15:00:00</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="last_review_date">2025-01-12</field>
+        <field name="next_review_date">2025-05-12</field>
+        <field name="retention_due_date">2026-03-01</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_audit')])]"/>
+    </record>
+
+    <record id="c18_dms_document_policy_memo_fast_cycle" model="c18.dms.document">
+        <field name="name">Policy Memo - Access Control Update</field>
+        <field name="directory_id" ref="c18_dms_directory_compliance"/>
+        <field name="department_id" ref="c18_dms_department_corporate"/>
+        <field name="doc_type_id" ref="c18_dms_type_policy_memo"/>
+        <field name="attachment_id" ref="c18_attachment_policy_memo"/>
+        <field name="state">approved</field>
+        <field name="supervisor_reviewer_id" ref="base.user_admin"/>
+        <field name="manager_reviewer_id" ref="base.user_admin"/>
+        <field name="submitted_by_id" ref="base.user_admin"/>
+        <field name="submitted_date">2026-03-04 08:50:00</field>
+        <field name="supervisor_approved_by_id" ref="base.user_admin"/>
+        <field name="supervisor_approved_date">2026-03-04 10:00:00</field>
+        <field name="manager_approved_by_id" ref="base.user_admin"/>
+        <field name="manager_approved_date">2026-03-04 14:30:00</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('c18_dms_tag_policy')])]"/>
+    </record>
+
+    <record id="c18_dms_history_beta_contract_old" model="c18.dms.history">
+        <field name="name">Beta Main Contract - Previous Version</field>
+        <field name="document_id" ref="c18_dms_document_beta_contract"/>
+        <field name="attachment_id" ref="c18_attachment_beta_contract_v2_old"/>
+        <field name="version_note">Imported historical version for demo.</field>
+    </record>
+
+    <record id="c18_dms_history_governance_policy_old" model="c18.dms.history">
+        <field name="name">Corporate Governance Policy - Rev 0</field>
+        <field name="document_id" ref="c18_dms_document_governance_policy"/>
+        <field name="attachment_id" ref="c18_attachment_beta_contract_v2_old"/>
+        <field name="version_note">Baseline policy before annual revision.</field>
+    </record>
+
+    <record id="c18_dms_share_log_governance_page" model="c18.dms.share.log">
+        <field name="document_id" ref="c18_dms_document_governance_policy"/>
+        <field name="access_type">page</field>
+        <field name="accessed_at">2026-03-02 07:12:00</field>
+        <field name="access_ip">103.10.12.24</field>
+        <field name="user_agent">Mozilla/5.0 (Macintosh; Intel Mac OS X)</field>
+        <field name="access_name">External Counsel</field>
+    </record>
+
+    <record id="c18_dms_share_log_governance_download" model="c18.dms.share.log">
+        <field name="document_id" ref="c18_dms_document_governance_policy"/>
+        <field name="access_type">download</field>
+        <field name="accessed_at">2026-03-02 07:16:00</field>
+        <field name="access_ip">103.10.12.24</field>
+        <field name="user_agent">Mozilla/5.0 (Macintosh; Intel Mac OS X)</field>
+        <field name="access_name">External Counsel</field>
+    </record>
+
+    <record id="c18_dms_share_log_alpha_invoice_page" model="c18.dms.share.log">
+        <field name="document_id" ref="c18_dms_document_alpha_invoice"/>
+        <field name="access_type">page</field>
+        <field name="accessed_at">2026-03-03 13:20:00</field>
+        <field name="access_ip">10.8.22.14</field>
+        <field name="user_agent">Mozilla/5.0 (Windows NT 10.0; Win64; x64)</field>
+        <field name="access_name">Finance Shared Link</field>
+    </record>
+
+    <record id="c18_dms_share_log_alpha_invoice_download" model="c18.dms.share.log">
+        <field name="document_id" ref="c18_dms_document_alpha_invoice"/>
+        <field name="access_type">download</field>
+        <field name="accessed_at">2026-03-03 13:22:00</field>
+        <field name="access_ip">10.8.22.14</field>
+        <field name="user_agent">Mozilla/5.0 (Windows NT 10.0; Win64; x64)</field>
+        <field name="access_name">Finance Shared Link</field>
+    </record>
+</odoo>

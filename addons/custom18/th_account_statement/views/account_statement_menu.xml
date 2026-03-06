@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- App Root Menu -->
+    <menuitem
+        id="menu_th_account_statement_root"
+        name="Account Statement"
+        web_icon="th_account_statement,static/description/icon.svg"
+        sequence="100"/>
+
+    <!-- Generate Statement -->
+    <menuitem
+        id="menu_th_account_statement_generate"
+        name="Generate Statement"
+        parent="menu_th_account_statement_root"
+        action="action_account_statement_wizard"
+        sequence="10"/>
+
+    <!-- Statement History -->
+    <menuitem
+        id="menu_th_account_statement_log"
+        name="Statement History"
+        parent="menu_th_account_statement_root"
+        action="action_account_statement_log"
+        sequence="20"/>
+
+</odoo>

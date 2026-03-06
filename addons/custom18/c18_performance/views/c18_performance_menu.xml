@@ -1,0 +1,12 @@
+<odoo>
+    <menuitem
+        id="menu_c18_performance_root"
+        name="KPI OKR"
+        sequence="10"
+        web_icon="c18_performance,static/description/icon.svg"
+    />
+    <menuitem id="menu_c18_performance_dashboard" name="Dashboard" parent="menu_c18_performance_root" sequence="5"/>
+    <menuitem id="menu_c18_performance_master" name="Master Data" parent="menu_c18_performance_root" sequence="10"/>
+    <menuitem id="menu_c18_performance_operation" name="Operations" parent="menu_c18_performance_root" sequence="20"/>
+    <menuitem id="menu_c18_performance_config" name="Configuration" parent="menu_c18_performance_root" sequence="30"/>
+</odoo>

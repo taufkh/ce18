@@ -1,0 +1,49 @@
+<odoo>
+    <record id="view_c18_dms_multi_upload_wizard_form" model="ir.ui.view">
+        <field name="name">c18.dms.multi.upload.wizard.form</field>
+        <field name="model">c18.dms.multi.upload.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Upload Multiple Documents">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="directory_id"/>
+                            <button name="action_fill_from_directory" type="object" string="Apply Directory Defaults" class="btn-secondary"/>
+                            <field name="department_id"/>
+                            <field name="project_id"/>
+                            <field name="doc_type_id"/>
+                        </group>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="state"/>
+                            <field name="expiry_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_create_documents" type="object" class="btn-primary" string="Create Documents"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_multi_upload_wizard" model="ir.actions.act_window">
+        <field name="name">Upload Multiple Documents</field>
+        <field name="res_model">c18.dms.multi.upload.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_c18_dms_multi_upload_wizard_form"/>
+    </record>
+
+    <menuitem
+        id="menu_c18_dms_multi_upload"
+        name="Upload Multiple Documents"
+        parent="menu_c18_dms_operation"
+        action="action_c18_dms_multi_upload_wizard"
+        sequence="30"
+    />
+</odoo>

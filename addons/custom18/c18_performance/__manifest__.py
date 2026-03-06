@@ -1,0 +1,33 @@
+{
+    "name": "C18 KPI OKR",
+    "summary": "KPI and OKR management for Odoo 18 Community",
+    "version": "18.0.1.0.0",
+    "category": "Productivity",
+    "author": "Custom18",
+    "license": "LGPL-3",
+    "depends": ["mail", "hr", "board"],
+    "assets": {
+        "web.assets_backend": [
+            "c18_performance/static/src/js/board_guard.js",
+        ],
+    },
+    "data": [
+        "security/c18_performance_security.xml",
+        "security/ir.model.access.csv",
+        "data/c18_performance_cron.xml",
+        "data/c18_demo_users.xml",
+        "data/c18_performance_demo.xml",
+        "views/kpi_checkin_wizard_views.xml",
+        "views/kpi_target_line_views.xml",
+        "views/c18_performance_menu.xml",
+        "views/bsc_perspective_views.xml",
+        "views/okr_cycle_views.xml",
+        "views/okr_objective_views.xml",
+        "views/okr_kpi_views.xml",
+        "views/okr_excel_import_wizard_views.xml",
+        "views/kpi_checkin_views.xml",
+        "views/performance_dashboard_views.xml",
+    ],
+    "application": True,
+    "installable": True,
+}

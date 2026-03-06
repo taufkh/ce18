@@ -1,0 +1,23 @@
+<odoo>
+    <record id="ir_cron_c18_kpi_checkin_reminder" model="ir.cron">
+        <field name="name">C18 KPI Check-in Reminder</field>
+        <field name="model_id" ref="model_c18_okr_kpi"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_notify_missing_checkin()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">weeks</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="ir_cron_c18_kpi_auto_checkin" model="ir.cron">
+        <field name="name">C18 KPI Auto Check-in</field>
+        <field name="model_id" ref="model_c18_okr_kpi"/>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_generate_auto_checkins()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

@@ -1,0 +1,217 @@
+<odoo>
+    <record id="view_c18_okr_kpi_tree" model="ir.ui.view">
+        <field name="name">c18.okr.kpi.tree</field>
+        <field name="model">c18.okr.kpi</field>
+        <field name="arch" type="xml">
+            <list default_order="cycle_id desc,state asc,id desc">
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="objective_scope"/>
+                <field name="objective_id"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="kr_type"/>
+                <field name="target_value"/>
+                <field name="actual_value"/>
+                <field name="kpi_progress" widget="progressbar"/>
+                <field name="rag_status" widget="badge"
+                    decoration-danger="rag_status == 'red'"
+                    decoration-warning="rag_status == 'amber'"
+                    decoration-success="rag_status == 'green'"/>
+                <button name="action_open_quick_checkin" type="object" string="Quick Check-in" icon="fa-plus"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_kpi_form" model="ir.ui.view">
+        <field name="name">c18.okr.kpi.form</field>
+        <field name="model">c18.okr.kpi</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_quick_checkin" type="object" string="Quick Check-in" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="objective_id"/>
+                            <field name="cycle_id" readonly="1"/>
+                            <field name="objective_scope" readonly="1"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="owner_id"/>
+                        </group>
+                        <group>
+                            <field name="kr_type"/>
+                            <field name="start_value" invisible="kr_type != 'numeric'"/>
+                            <field name="target_value"/>
+                            <field name="target_mode"/>
+                            <field name="current_target_value" readonly="1"/>
+                            <field name="actual_value" readonly="1"/>
+                            <field name="weight"/>
+                            <field name="is_lower_better"/>
+                            <field name="data_source"/>
+                            <field name="auto_checkin_enabled" invisible="data_source == 'manual'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="kpi_progress" widget="progressbar"/>
+                        <field name="achievement_rate"/>
+                        <field name="state"/>
+                        <field name="rag_status" widget="badge"
+                            decoration-danger="rag_status == 'red'"
+                            decoration-warning="rag_status == 'amber'"
+                            decoration-success="rag_status == 'green'"/>
+                        <field name="checkin_date"/>
+                    </group>
+                    <notebook>
+                        <page string="Check-ins">
+                            <field name="checkin_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="period_date"/>
+                                    <field name="checkin_date"/>
+                                    <field name="actual_value"/>
+                                    <field name="approval_state" widget="badge"
+                                        decoration-warning="approval_state == 'pending'"
+                                        decoration-success="approval_state == 'approved'"
+                                        decoration-danger="approval_state == 'rejected'"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Periodic Targets" invisible="target_mode != 'periodic'">
+                            <field name="target_line_ids" context="{'default_kpi_id': id}">
+                                <list editable="bottom">
+                                    <field name="period_date"/>
+                                    <field name="target_value"/>
+                                    <field name="weight"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_kpi_search" model="ir.ui.view">
+        <field name="name">c18.okr.kpi.search</field>
+        <field name="model">c18.okr.kpi</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="owner_id"/>
+                <field name="objective_id"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="kr_type"/>
+                <field name="data_source"/>
+                <field name="target_mode"/>
+                <filter name="filter_my_department" string="My Department" domain="[('is_my_department', '=', True)]"/>
+                <filter name="filter_overdue" string="Overdue Check-in" domain="[('is_checkin_overdue', '=', True)]"/>
+                <filter name="filter_periodic" string="Periodic KPI" domain="[('target_mode', '=', 'periodic')]"/>
+                <filter name="filter_red" string="Red" domain="[('rag_status', '=', 'red')]"/>
+                <filter name="filter_amber" string="Amber" domain="[('rag_status', '=', 'amber')]"/>
+                <filter name="filter_green" string="Green" domain="[('rag_status', '=', 'green')]"/>
+                <filter name="filter_auto" string="Auto KPI" domain="[('auto_checkin_enabled', '=', True)]"/>
+                <filter name="filter_company" string="Company" domain="[('objective_scope', '=', 'company')]"/>
+                <filter name="filter_department" string="Department" domain="[('objective_scope', '=', 'department')]"/>
+                <filter name="filter_individual" string="Individual" domain="[('objective_scope', '=', 'individual')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_cycle" string="Cycle" context="{'group_by': 'cycle_id'}"/>
+                    <filter name="group_by_objective" string="Objective" context="{'group_by': 'objective_id'}"/>
+                    <filter name="group_by_owner" string="Owner" context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_by_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_status" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_kpi_graph" model="ir.ui.view">
+        <field name="name">c18.okr.kpi.graph</field>
+        <field name="model">c18.okr.kpi</field>
+        <field name="arch" type="xml">
+            <graph string="Key Results Insight" type="bar">
+                <field name="department_id" type="row"/>
+                <field name="achievement_rate" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_kpi_pivot" model="ir.ui.view">
+        <field name="name">c18.okr.kpi.pivot</field>
+        <field name="model">c18.okr.kpi</field>
+        <field name="arch" type="xml">
+            <pivot string="Key Results Insight">
+                <field name="cycle_id" type="row"/>
+                <field name="department_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="achievement_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_c18_okr_kpi" model="ir.actions.act_window">
+        <field name="name">KPIs</field>
+        <field name="res_model">c18.okr.kpi</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_kpi_search"/>
+    </record>
+
+    <record id="action_c18_my_okr_kpi" model="ir.actions.act_window">
+        <field name="name">My KPIs</field>
+        <field name="res_model">c18.okr.kpi</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_kpi_search"/>
+        <field name="domain">[('owner_id', '=', uid)]</field>
+        <field name="context">{'search_default_group_by_cycle': 1}</field>
+    </record>
+
+    <record id="action_c18_department_okr_kpi" model="ir.actions.act_window">
+        <field name="name">My Department KPIs</field>
+        <field name="res_model">c18.okr.kpi</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_kpi_search"/>
+        <field name="domain">[('is_my_department', '=', True)]</field>
+        <field name="context">{'search_default_group_by_owner': 1}</field>
+    </record>
+
+    <record id="action_c18_okr_kpi_overdue" model="ir.actions.act_window">
+        <field name="name">Overdue Check-ins</field>
+        <field name="res_model">c18.okr.kpi</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_okr_kpi_search"/>
+        <field name="domain">[('is_checkin_overdue', '=', True)]</field>
+    </record>
+
+    <menuitem
+        id="menu_c18_okr_kpi"
+        name="KPIs"
+        parent="menu_c18_performance_operation"
+        action="action_c18_okr_kpi"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_c18_my_okr_kpi"
+        name="My KPIs"
+        parent="menu_c18_performance_operation"
+        action="action_c18_my_okr_kpi"
+        sequence="18"
+    />
+
+    <menuitem
+        id="menu_c18_department_okr_kpi"
+        name="My Department KPIs"
+        parent="menu_c18_performance_operation"
+        action="action_c18_department_okr_kpi"
+        sequence="19"
+        groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive"
+    />
+</odoo>

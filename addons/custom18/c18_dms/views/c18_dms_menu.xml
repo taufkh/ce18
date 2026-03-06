@@ -1,0 +1,11 @@
+<odoo>
+    <menuitem
+        id="menu_c18_dms_root"
+        name="DMS"
+        sequence="20"
+        web_icon="c18_dms,static/description/icon.svg"
+    />
+    <menuitem id="menu_c18_dms_dashboard" name="Dashboard" parent="menu_c18_dms_root" sequence="5"/>
+    <menuitem id="menu_c18_dms_master" name="Master Data" parent="menu_c18_dms_root" sequence="10"/>
+    <menuitem id="menu_c18_dms_operation" name="Operations" parent="menu_c18_dms_root" sequence="20"/>
+</odoo>

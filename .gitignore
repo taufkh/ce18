@@ -1,0 +1,18 @@
+# Ignore everything by default
+*
+
+# Keep git metadata helpers
+!.gitignore
+
+# Allow only selected addon folders
+!addons/
+addons/*
+!addons/addons-community/
+!addons/addons-community/**
+!addons/custom18/
+!addons/custom18/**
+
+# Ignore generated files
+**/__pycache__/
+*.pyc
+.DS_Store

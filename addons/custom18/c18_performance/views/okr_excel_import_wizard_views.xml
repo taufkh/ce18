@@ -1,0 +1,51 @@
+<odoo>
+    <record id="view_c18_okr_excel_import_wizard_form" model="ir.ui.view">
+        <field name="name">c18.okr.excel.import.wizard.form</field>
+        <field name="model">c18.okr.excel.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import OKR from Excel">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="file_data" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="sheet_name"/>
+                        </group>
+                        <group>
+                            <field name="create_cycle_if_missing"/>
+                            <field name="create_perspective_if_missing"/>
+                            <field name="update_existing_kpi"/>
+                            <field name="activate_objective"/>
+                        </group>
+                    </group>
+                    <group string="Expected Columns">
+                        <div class="o_form_label">
+                            cycle_name, objective_name, perspective_name, objective_scope, hierarchy_level, department_name, employee_name, objective_owner_login, progress_method, alignment_weight, parent_objective_name, kpi_name, kr_type, start_value, target_value, target_mode, kpi_weight, is_lower_better, kpi_owner_login, data_source, auto_checkin_enabled, cycle_start_date, cycle_end_date, cycle_review_date
+                        </div>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_download_template" type="object" string="Download Template" class="btn-secondary"/>
+                    <button name="action_import_excel" type="object" string="Import" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_okr_excel_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import OKR from Excel</field>
+        <field name="res_model">c18.okr.excel.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_c18_okr_excel_import_wizard_form"/>
+    </record>
+
+    <menuitem
+        id="menu_c18_okr_excel_import_wizard"
+        name="Import OKR from Excel"
+        parent="menu_c18_performance_operation"
+        action="action_c18_okr_excel_import_wizard"
+        sequence="35"
+    />
+</odoo>

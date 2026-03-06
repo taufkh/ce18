@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form View -->
+    <record id="view_account_statement_wizard_form" model="ir.ui.view">
+        <field name="name">account.statement.wizard.form</field>
+        <field name="model">account.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Account Statement">
+                <group>
+                    <group string="Statement Configuration">
+                        <field name="statement_type" widget="radio"/>
+                    </group>
+                    <group string="Options">
+                        <field name="date_from"
+                               invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
+                        <field name="date_to"
+                               invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
+                        <field name="include_paid"
+                               invisible="statement_type in ('customer_overdue', 'vendor_overdue')"/>
+                    </group>
+                </group>
+
+                <group string="Select Partners">
+                    <field name="partner_ids"
+                           nolabel="1"
+                           widget="many2many_tags"
+                           domain="[('customer_rank', '>', 0)] if statement_type in ('customer', 'customer_overdue') else [('supplier_rank', '>', 0)]"
+                           options="{'no_create': True}"/>
+                </group>
+
+                <footer>
+                    <button name="action_print_pdf"
+                            string="Print PDF"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-print"/>
+                    <button name="action_send_email"
+                            string="Send via Email"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-envelope"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_account_statement_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Account Statement</field>
+        <field name="res_model">account.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_account_statement_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

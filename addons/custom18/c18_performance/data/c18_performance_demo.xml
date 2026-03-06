@@ -1,0 +1,804 @@
+<odoo>
+    <record id="c18_cycle_2026" model="c18.okr.cycle">
+        <field name="name">FY 2026</field>
+        <field name="period_type">annual</field>
+        <field name="date_start">2026-01-01</field>
+        <field name="date_end">2026-12-31</field>
+        <field name="review_date">2026-12-20</field>
+        <field name="state">open</field>
+    </record>
+
+    <record id="c18_cycle_2026_q1" model="c18.okr.cycle">
+        <field name="name">2026 Q1</field>
+        <field name="period_type">quarterly</field>
+        <field name="date_start">2026-01-01</field>
+        <field name="date_end">2026-03-31</field>
+        <field name="review_date">2026-03-25</field>
+        <field name="state">open</field>
+    </record>
+
+    <record id="c18_department_team_a" model="hr.department">
+        <field name="name">Team A</field>
+    </record>
+
+    <record id="c18_department_team_b" model="hr.department">
+        <field name="name">Team B</field>
+    </record>
+
+    <record id="c18_department_team_c" model="hr.department">
+        <field name="name">Team C</field>
+    </record>
+
+    <record id="c18_department_team_d" model="hr.department">
+        <field name="name">Team D</field>
+    </record>
+
+    <record id="c18_department_team_e" model="hr.department">
+        <field name="name">Team E</field>
+    </record>
+
+    <record id="c18_department_corporate" model="hr.department">
+        <field name="name">Corporate</field>
+    </record>
+
+    <record id="c18_employee_team_a_lead" model="hr.employee">
+        <field name="name">Team A Lead</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="work_email">team.a.lead@example.com</field>
+    </record>
+
+    <record id="c18_employee_team_a_staff" model="hr.employee">
+        <field name="name">Team A Staff</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="work_email">team.a.staff@example.com</field>
+    </record>
+
+    <record id="c18_bsc_perspective_business_process" model="c18.bsc.perspective">
+        <field name="name">Business Process</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="c18_bsc_perspective_customer_service" model="c18.bsc.perspective">
+        <field name="name">Customer Service</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="c18_bsc_perspective_learning_growth" model="c18.bsc.perspective">
+        <field name="name">Learning &amp; Growth</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="c18_bsc_perspective_financial" model="c18.bsc.perspective">
+        <field name="name">Financial</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="c18_objective_company_q1" model="c18.okr.objective">
+        <field name="name">Deliver 2026 Q1 Company Objectives</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">company</field>
+        <field name="hierarchy_level">management</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_financial"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_a_business_process" model="c18.okr.objective">
+        <field name="name">Improve Team A Business Process</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">25</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_business_process"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_a_customer_service" model="c18.okr.objective">
+        <field name="name">Strengthen Team A Customer Service</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">25</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_customer_service"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_a_learning" model="c18.okr.objective">
+        <field name="name">Build Team A Capability</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">25</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_learning_growth"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_a_financial" model="c18.okr.objective">
+        <field name="name">Improve Team A Financial Outcome</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">25</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_financial"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_b_business_process" model="c18.okr.objective">
+        <field name="name">Improve Team B Delivery Process</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_b"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">20</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_business_process"/>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_c_customer_service" model="c18.okr.objective">
+        <field name="name">Improve Team C Service Quality</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_c"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">20</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_customer_service"/>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_d_learning" model="c18.okr.objective">
+        <field name="name">Improve Team D Learning Adoption</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_d"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">15</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_learning_growth"/>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_team_e_financial" model="c18.okr.objective">
+        <field name="name">Improve Team E Financial Result</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="department_id" ref="c18_department_team_e"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">20</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_financial"/>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_objective_individual_team_a_support" model="c18.okr.objective">
+        <field name="name">Improve Individual Account Handling</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">individual</field>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="employee_id" ref="c18_employee_team_a_staff"/>
+        <field name="parent_objective_id" ref="c18_objective_team_a_customer_service"/>
+        <field name="alignment_weight">15</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_customer_service"/>
+        <field name="progress_method">equal</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_cycle_time" model="c18.okr.kpi">
+        <field name="name">Reduce Cycle Time</field>
+        <field name="objective_id" ref="c18_objective_team_a_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_sla" model="c18.okr.kpi">
+        <field name="name">Meet SLA Response</field>
+        <field name="objective_id" ref="c18_objective_team_a_customer_service"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_training" model="c18.okr.kpi">
+        <field name="name">Training Completion</field>
+        <field name="objective_id" ref="c18_objective_team_a_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_margin" model="c18.okr.kpi">
+        <field name="name">Gross Margin Achievement</field>
+        <field name="objective_id" ref="c18_objective_team_a_financial"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_process_compliance" model="c18.okr.kpi">
+        <field name="name">Process Compliance Rate</field>
+        <field name="objective_id" ref="c18_objective_team_a_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_rework_reduction" model="c18.okr.kpi">
+        <field name="name">Rework Reduction</field>
+        <field name="objective_id" ref="c18_objective_team_a_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_workload_balance" model="c18.okr.kpi">
+        <field name="name">Workload Balance Index</field>
+        <field name="objective_id" ref="c18_objective_team_a_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_backlog_clearance" model="c18.okr.kpi">
+        <field name="name">Backlog Clearance</field>
+        <field name="objective_id" ref="c18_objective_team_a_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">15</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_customer_retention" model="c18.okr.kpi">
+        <field name="name">Customer Retention</field>
+        <field name="objective_id" ref="c18_objective_team_a_customer_service"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_case_resolution" model="c18.okr.kpi">
+        <field name="name">Case Resolution Quality</field>
+        <field name="objective_id" ref="c18_objective_team_a_customer_service"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_escalation_control" model="c18.okr.kpi">
+        <field name="name">Escalation Control</field>
+        <field name="objective_id" ref="c18_objective_team_a_customer_service"/>
+        <field name="target_value">100</field>
+        <field name="weight">25</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_skill_gap" model="c18.okr.kpi">
+        <field name="name">Skill Gap Closure</field>
+        <field name="objective_id" ref="c18_objective_team_a_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_knowledge_sharing" model="c18.okr.kpi">
+        <field name="name">Knowledge Sharing Sessions</field>
+        <field name="objective_id" ref="c18_objective_team_a_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_certification" model="c18.okr.kpi">
+        <field name="name">Certification Completion</field>
+        <field name="objective_id" ref="c18_objective_team_a_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_innovation" model="c18.okr.kpi">
+        <field name="name">Innovation Suggestion Rate</field>
+        <field name="objective_id" ref="c18_objective_team_a_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_revenue" model="c18.okr.kpi">
+        <field name="name">Revenue Achievement</field>
+        <field name="objective_id" ref="c18_objective_team_a_financial"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_cost_control" model="c18.okr.kpi">
+        <field name="name">Cost Control</field>
+        <field name="objective_id" ref="c18_objective_team_a_financial"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_cashflow" model="c18.okr.kpi">
+        <field name="name">Cashflow Stability</field>
+        <field name="objective_id" ref="c18_objective_team_a_financial"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_team_b" model="c18.okr.kpi">
+        <field name="name">Team B Processing Accuracy</field>
+        <field name="objective_id" ref="c18_objective_team_b_business_process"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_team_c" model="c18.okr.kpi">
+        <field name="name">Team C Customer Satisfaction</field>
+        <field name="objective_id" ref="c18_objective_team_c_customer_service"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_team_d" model="c18.okr.kpi">
+        <field name="name">Team D Certification Rate</field>
+        <field name="objective_id" ref="c18_objective_team_d_learning"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_team_e" model="c18.okr.kpi">
+        <field name="name">Team E Cost Efficiency</field>
+        <field name="objective_id" ref="c18_objective_team_e_financial"/>
+        <field name="target_value">100</field>
+        <field name="weight">20</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_individual_percentage" model="c18.okr.kpi">
+        <field name="name">Assigned Account Response Rate</field>
+        <field name="objective_id" ref="c18_objective_individual_team_a_support"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_kpi_individual_milestone" model="c18.okr.kpi">
+        <field name="name">Customer Recovery Playbook Rollout</field>
+        <field name="objective_id" ref="c18_objective_individual_team_a_support"/>
+        <field name="kr_type">milestone</field>
+        <field name="target_value">100</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="base.user_admin"/>
+    </record>
+
+    <record id="c18_checkin_cycle_time" model="c18.kpi.checkin">
+        <field name="name">Cycle Time Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_cycle_time"/>
+        <field name="actual_value">42</field>
+        <field name="checkin_date">2026-03-01</field>
+        <field name="note">Current progress is still below target and flagged red.</field>
+    </record>
+
+    <record id="c18_checkin_sla" model="c18.kpi.checkin">
+        <field name="name">SLA Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_sla"/>
+        <field name="actual_value">68</field>
+        <field name="checkin_date">2026-03-01</field>
+        <field name="note">Response quality improved but still amber.</field>
+    </record>
+
+    <record id="c18_checkin_training" model="c18.kpi.checkin">
+        <field name="name">Training Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_training"/>
+        <field name="actual_value">83</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Training program is on track and green.</field>
+    </record>
+
+    <record id="c18_checkin_margin" model="c18.kpi.checkin">
+        <field name="name">Margin Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_margin"/>
+        <field name="actual_value">91</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Financial target is performing above threshold.</field>
+    </record>
+
+    <record id="c18_checkin_process_compliance" model="c18.kpi.checkin">
+        <field name="name">Process Compliance Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_process_compliance"/>
+        <field name="actual_value">74</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Compliance is amber and improving.</field>
+    </record>
+
+    <record id="c18_checkin_rework_reduction" model="c18.kpi.checkin">
+        <field name="name">Rework Reduction Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_rework_reduction"/>
+        <field name="actual_value">52</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Rework reduction just entered amber zone.</field>
+    </record>
+
+    <record id="c18_checkin_workload_balance" model="c18.kpi.checkin">
+        <field name="name">Workload Balance Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_workload_balance"/>
+        <field name="actual_value">81</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Workload balance is now green.</field>
+    </record>
+
+    <record id="c18_checkin_backlog_clearance" model="c18.kpi.checkin">
+        <field name="name">Backlog Clearance Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_backlog_clearance"/>
+        <field name="actual_value">63</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Backlog is reducing but still amber.</field>
+    </record>
+
+    <record id="c18_checkin_customer_retention" model="c18.kpi.checkin">
+        <field name="name">Customer Retention Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_customer_retention"/>
+        <field name="actual_value">84</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Retention is green.</field>
+    </record>
+
+    <record id="c18_checkin_case_resolution" model="c18.kpi.checkin">
+        <field name="name">Case Resolution Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_case_resolution"/>
+        <field name="actual_value">73</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Resolution quality remains amber.</field>
+    </record>
+
+    <record id="c18_checkin_escalation_control" model="c18.kpi.checkin">
+        <field name="name">Escalation Control Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_escalation_control"/>
+        <field name="actual_value">47</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Escalations are still too high.</field>
+    </record>
+
+    <record id="c18_checkin_skill_gap" model="c18.kpi.checkin">
+        <field name="name">Skill Gap Closure Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_skill_gap"/>
+        <field name="actual_value">66</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Skill gap closure is amber.</field>
+    </record>
+
+    <record id="c18_checkin_knowledge_sharing" model="c18.kpi.checkin">
+        <field name="name">Knowledge Sharing Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_knowledge_sharing"/>
+        <field name="actual_value">87</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Knowledge sharing is healthy.</field>
+    </record>
+
+    <record id="c18_checkin_certification" model="c18.kpi.checkin">
+        <field name="name">Certification Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_certification"/>
+        <field name="actual_value">44</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Certification completion is behind target.</field>
+    </record>
+
+    <record id="c18_checkin_innovation" model="c18.kpi.checkin">
+        <field name="name">Innovation Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_innovation"/>
+        <field name="actual_value">79</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Innovation pipeline is almost green.</field>
+    </record>
+
+    <record id="c18_checkin_revenue" model="c18.kpi.checkin">
+        <field name="name">Revenue Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_revenue"/>
+        <field name="actual_value">76</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Revenue achievement is amber.</field>
+    </record>
+
+    <record id="c18_checkin_cost_control" model="c18.kpi.checkin">
+        <field name="name">Cost Control Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_cost_control"/>
+        <field name="actual_value">82</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Cost control is green.</field>
+    </record>
+
+    <record id="c18_checkin_cashflow" model="c18.kpi.checkin">
+        <field name="name">Cashflow Stability Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_cashflow"/>
+        <field name="actual_value">69</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Cashflow stability is amber.</field>
+    </record>
+
+    <record id="c18_checkin_team_b" model="c18.kpi.checkin">
+        <field name="name">Team B Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_team_b"/>
+        <field name="actual_value">58</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Accuracy is improving but still amber.</field>
+    </record>
+
+    <record id="c18_checkin_team_c" model="c18.kpi.checkin">
+        <field name="name">Team C Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_team_c"/>
+        <field name="actual_value">88</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Service quality is green.</field>
+    </record>
+
+    <record id="c18_checkin_team_d" model="c18.kpi.checkin">
+        <field name="name">Team D Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_team_d"/>
+        <field name="actual_value">49</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Learning adoption is still red.</field>
+    </record>
+
+    <record id="c18_checkin_team_e" model="c18.kpi.checkin">
+        <field name="name">Team E Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_team_e"/>
+        <field name="actual_value">78</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Cost efficiency is close to green.</field>
+    </record>
+
+    <record id="c18_checkin_individual_percentage" model="c18.kpi.checkin">
+        <field name="name">Individual Response Rate Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_individual_percentage"/>
+        <field name="actual_value">91</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Percentage-based KR is already green.</field>
+    </record>
+
+    <record id="c18_checkin_individual_milestone" model="c18.kpi.checkin">
+        <field name="name">Individual Milestone Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_individual_milestone"/>
+        <field name="actual_value">65</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Milestone rollout is in progress.</field>
+    </record>
+
+    <record id="c18_objective_management_strategy" model="c18.okr.objective">
+        <field name="name">Strengthen Portfolio Governance</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="hierarchy_level">management</field>
+        <field name="department_id" ref="hr.dep_management"/>
+        <field name="parent_objective_id" ref="c18_objective_company_q1"/>
+        <field name="alignment_weight">20</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_financial"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="user_c18_management_demo"/>
+    </record>
+
+    <record id="c18_objective_hr_people_ops" model="c18.okr.objective">
+        <field name="name">Improve Workforce Readiness</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="hierarchy_level">manager</field>
+        <field name="department_id" ref="hr.dep_administration"/>
+        <field name="parent_objective_id" ref="c18_objective_management_strategy"/>
+        <field name="alignment_weight">15</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_learning_growth"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="user_c18_hr_manager_demo"/>
+    </record>
+
+    <record id="c18_objective_rd_delivery_quality" model="c18.okr.objective">
+        <field name="name">Increase R&amp;D Delivery Predictability</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">department</field>
+        <field name="hierarchy_level">supervisor</field>
+        <field name="department_id" ref="hr.dep_rd"/>
+        <field name="parent_objective_id" ref="c18_objective_hr_people_ops"/>
+        <field name="alignment_weight">20</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_business_process"/>
+        <field name="progress_method">weighted</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="user_c18_rd_supervisor_demo"/>
+    </record>
+
+    <record id="c18_objective_ltp_individual_execution" model="c18.okr.objective">
+        <field name="name">Deliver Long-Term Project Milestones</field>
+        <field name="cycle_id" ref="c18_cycle_2026_q1"/>
+        <field name="objective_scope">individual</field>
+        <field name="hierarchy_level">staff</field>
+        <field name="department_id" ref="hr.dep_rd_ltp"/>
+        <field name="employee_id" ref="hr.employee_jve"/>
+        <field name="parent_objective_id" ref="c18_objective_rd_delivery_quality"/>
+        <field name="alignment_weight">10</field>
+        <field name="perspective_id" ref="c18_bsc_perspective_business_process"/>
+        <field name="progress_method">equal</field>
+        <field name="state">active</field>
+        <field name="owner_id" ref="user_c18_project_staff_demo"/>
+    </record>
+
+    <record id="c18_kpi_management_review" model="c18.okr.kpi">
+        <field name="name">Quarterly Strategy Review Completion</field>
+        <field name="objective_id" ref="c18_objective_management_strategy"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="weight">60</field>
+        <field name="owner_id" ref="user_c18_management_demo"/>
+    </record>
+
+    <record id="c18_kpi_management_pipeline" model="c18.okr.kpi">
+        <field name="name">Priority Initiative Approval</field>
+        <field name="objective_id" ref="c18_objective_management_strategy"/>
+        <field name="target_value">4</field>
+        <field name="weight">40</field>
+        <field name="owner_id" ref="user_c18_management_demo"/>
+    </record>
+
+    <record id="c18_kpi_hr_hiring" model="c18.okr.kpi">
+        <field name="name">Hiring Readiness Index</field>
+        <field name="objective_id" ref="c18_objective_hr_people_ops"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="user_c18_hr_manager_demo"/>
+    </record>
+
+    <record id="c18_kpi_hr_training_plan" model="c18.okr.kpi">
+        <field name="name">Training Plan Completion</field>
+        <field name="objective_id" ref="c18_objective_hr_people_ops"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="target_mode">periodic</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="user_c18_hr_manager_demo"/>
+    </record>
+
+    <record id="c18_kpi_target_hr_training_jan" model="c18.kpi.target.line">
+        <field name="kpi_id" ref="c18_kpi_hr_training_plan"/>
+        <field name="period_date">2026-01-01</field>
+        <field name="target_value">30</field>
+        <field name="note">Kickoff and mandatory learning schedule.</field>
+    </record>
+
+    <record id="c18_kpi_target_hr_training_feb" model="c18.kpi.target.line">
+        <field name="kpi_id" ref="c18_kpi_hr_training_plan"/>
+        <field name="period_date">2026-02-01</field>
+        <field name="target_value">65</field>
+        <field name="note">Second wave completion target.</field>
+    </record>
+
+    <record id="c18_kpi_target_hr_training_mar" model="c18.kpi.target.line">
+        <field name="kpi_id" ref="c18_kpi_hr_training_plan"/>
+        <field name="period_date">2026-03-01</field>
+        <field name="target_value">100</field>
+        <field name="note">Quarter-end completion target.</field>
+    </record>
+
+    <record id="c18_kpi_rd_sprint_predictability" model="c18.okr.kpi">
+        <field name="name">Sprint Delivery Predictability</field>
+        <field name="objective_id" ref="c18_objective_rd_delivery_quality"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="weight">55</field>
+        <field name="owner_id" ref="user_c18_rd_supervisor_demo"/>
+    </record>
+
+    <record id="c18_kpi_rd_bug_escape" model="c18.okr.kpi">
+        <field name="name">Production Bug Escape Reduction</field>
+        <field name="objective_id" ref="c18_objective_rd_delivery_quality"/>
+        <field name="target_value">12</field>
+        <field name="weight">45</field>
+        <field name="owner_id" ref="user_c18_rd_supervisor_demo"/>
+        <field name="is_lower_better">True</field>
+    </record>
+
+    <record id="c18_kpi_ltp_milestone" model="c18.okr.kpi">
+        <field name="name">Milestone Completion Rate</field>
+        <field name="objective_id" ref="c18_objective_ltp_individual_execution"/>
+        <field name="kr_type">percentage</field>
+        <field name="target_value">100</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="user_c18_project_staff_demo"/>
+    </record>
+
+    <record id="c18_kpi_ltp_defect" model="c18.okr.kpi">
+        <field name="name">Resolved Defects per Iteration</field>
+        <field name="objective_id" ref="c18_objective_ltp_individual_execution"/>
+        <field name="target_value">12</field>
+        <field name="weight">50</field>
+        <field name="owner_id" ref="user_c18_project_staff_demo"/>
+    </record>
+
+    <record id="c18_checkin_management_review" model="c18.kpi.checkin">
+        <field name="name">Strategy Review Completion Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_management_review"/>
+        <field name="actual_value">85</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Executive governance review is on track.</field>
+    </record>
+
+    <record id="c18_checkin_management_pipeline" model="c18.kpi.checkin">
+        <field name="name">Initiative Approval Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_management_pipeline"/>
+        <field name="actual_value">3</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Three strategic initiatives have been approved this quarter.</field>
+    </record>
+
+    <record id="c18_checkin_hr_hiring" model="c18.kpi.checkin">
+        <field name="name">Hiring Readiness Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_hr_hiring"/>
+        <field name="actual_value">72</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="note">Hiring readiness is improving but remains amber.</field>
+    </record>
+
+    <record id="c18_checkin_hr_training_plan" model="c18.kpi.checkin">
+        <field name="name">Training Plan Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_hr_training_plan"/>
+        <field name="actual_value">88</field>
+        <field name="checkin_date">2026-03-02</field>
+        <field name="period_date">2026-03-01</field>
+        <field name="approval_state">approved</field>
+        <field name="approved_by" ref="user_c18_management_demo"/>
+        <field name="approved_date">2026-03-02 09:00:00</field>
+        <field name="manager_comment">Training rollout is accepted. Focus next on completion consistency by function.</field>
+        <field name="note">Training plan rollout is nearly complete.</field>
+    </record>
+
+    <record id="c18_checkin_rd_sprint_predictability" model="c18.kpi.checkin">
+        <field name="name">Sprint Predictability Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_rd_sprint_predictability"/>
+        <field name="actual_value">79</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Delivery predictability is still in amber range.</field>
+    </record>
+
+    <record id="c18_checkin_rd_bug_escape" model="c18.kpi.checkin">
+        <field name="name">Bug Escape Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_rd_bug_escape"/>
+        <field name="actual_value">9</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Supervisor has lowered production bug escapes below target.</field>
+    </record>
+
+    <record id="c18_checkin_ltp_milestone" model="c18.kpi.checkin">
+        <field name="name">Milestone Completion Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_ltp_milestone"/>
+        <field name="actual_value">67</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Project milestone delivery is in progress.</field>
+    </record>
+
+    <record id="c18_checkin_ltp_defect" model="c18.kpi.checkin">
+        <field name="name">Resolved Defects Check-in</field>
+        <field name="kpi_id" ref="c18_kpi_ltp_defect"/>
+        <field name="actual_value">9</field>
+        <field name="checkin_date">2026-03-03</field>
+        <field name="note">Paul Williams resolved nine defects in the latest iteration.</field>
+    </record>
+</odoo>

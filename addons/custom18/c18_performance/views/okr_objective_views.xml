@@ -1,0 +1,266 @@
+<odoo>
+    <record id="view_c18_okr_objective_tree" model="ir.ui.view">
+        <field name="name">c18.okr.objective.tree</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <list default_order="cycle_id desc,state asc,total_progress asc,id desc">
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="hierarchy_level"/>
+                <field name="objective_scope"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="parent_objective_id"/>
+                <field name="perspective_id"/>
+                <field name="state"/>
+                <field name="owner_id"/>
+                <field name="total_progress" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_objective_form" model="ir.ui.view">
+        <field name="name">c18.okr.objective.form</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" type="object" string="Activate" invisible="state != 'draft'"/>
+                    <button name="action_lock" type="object" string="Lock Score" invisible="state != 'active'"/>
+                    <button name="action_mark_done" type="object" string="Mark Done" invisible="state not in ('active', 'locked')"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,locked,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="cycle_id"/>
+                            <field name="hierarchy_level"/>
+                            <field name="objective_scope"/>
+                            <field name="department_id"/>
+                            <field name="employee_id" invisible="objective_scope != 'individual'"/>
+                            <field name="perspective_id"/>
+                        </group>
+                        <group>
+                            <field name="parent_objective_id"/>
+                            <field name="alignment_weight"/>
+                            <field name="progress_method"/>
+                            <field name="owner_id"/>
+                            <field name="total_progress" widget="progressbar"/>
+                            <field name="final_score" readonly="1"/>
+                            <field name="is_locked" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Key Results">
+                            <field name="kpi_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="kr_type"/>
+                                    <field name="start_value"/>
+                                    <field name="target_value"/>
+                                    <field name="actual_value"/>
+                                    <field name="weight"/>
+                                    <field name="data_source"/>
+                                    <field name="kpi_progress" widget="progressbar"/>
+                                    <field name="rag_status" widget="badge"
+                                        decoration-danger="rag_status == 'red'"
+                                        decoration-warning="rag_status == 'amber'"
+                                        decoration-success="rag_status == 'green'"/>
+                                    <button name="action_open_quick_checkin" type="object" string="Quick Check-in" icon="fa-plus"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Aligned Objectives">
+                            <field name="child_objective_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="cycle_id"/>
+                                    <field name="objective_scope"/>
+                                    <field name="department_id"/>
+                                    <field name="employee_id"/>
+                                    <field name="alignment_weight"/>
+                                    <field name="owner_id"/>
+                                    <field name="total_progress" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_objective_search" model="ir.ui.view">
+        <field name="name">c18.okr.objective.search</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="hierarchy_level"/>
+                <field name="objective_scope"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="owner_id"/>
+                <field name="perspective_id"/>
+                <filter name="filter_my_department" string="My Department" domain="[('is_my_department', '=', True)]"/>
+                <filter name="filter_company" string="Company" domain="[('objective_scope', '=', 'company')]"/>
+                <filter name="filter_department" string="Department" domain="[('objective_scope', '=', 'department')]"/>
+                <filter name="filter_individual" string="Individual" domain="[('objective_scope', '=', 'individual')]"/>
+                <filter name="filter_management_level" string="Management" domain="[('hierarchy_level', '=', 'management')]"/>
+                <filter name="filter_manager_level" string="Manager" domain="[('hierarchy_level', '=', 'manager')]"/>
+                <filter name="filter_supervisor_level" string="Supervisor" domain="[('hierarchy_level', '=', 'supervisor')]"/>
+                <filter name="filter_staff_level" string="Staff" domain="[('hierarchy_level', '=', 'staff')]"/>
+                <filter name="filter_locked" string="Locked" domain="[('is_locked', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_cycle" string="Cycle" context="{'group_by': 'cycle_id'}"/>
+                    <filter name="group_by_scope" string="Scope" context="{'group_by': 'objective_scope'}"/>
+                    <filter name="group_by_level" string="Level" context="{'group_by': 'hierarchy_level'}"/>
+                    <filter name="group_by_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_owner" string="Owner" context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_by_perspective" string="Perspective" context="{'group_by': 'perspective_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_objective_graph" model="ir.ui.view">
+        <field name="name">c18.okr.objective.graph</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <graph string="Objectives Insight" type="bar">
+                <field name="department_id" type="row"/>
+                <field name="total_progress" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_objective_pivot" model="ir.ui.view">
+        <field name="name">c18.okr.objective.pivot</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <pivot string="Objectives Insight">
+                <field name="cycle_id" type="row"/>
+                <field name="department_id" type="row"/>
+                <field name="objective_scope" type="col"/>
+                <field name="total_progress" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_c18_okr_objective_hierarchy_kanban" model="ir.ui.view">
+        <field name="name">c18.okr.objective.hierarchy.kanban</field>
+        <field name="model">c18.okr.objective</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="parent_objective_id" class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="hierarchy_level"/>
+                <field name="objective_scope"/>
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="owner_id"/>
+                <field name="total_progress"/>
+                <field name="child_objective_ids"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_kanban_record d-flex flex-column p-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <strong><field name="name"/></strong>
+                                <field name="objective_scope" widget="badge"/>
+                            </div>
+                            <div class="mb-1">
+                                <field name="hierarchy_level" widget="badge"/>
+                            </div>
+                            <div class="text-muted mb-1"><field name="cycle_id"/></div>
+                            <div class="mb-1"><field name="department_id"/></div>
+                            <div class="mb-1"><field name="employee_id"/></div>
+                            <div class="mb-2">
+                                <span class="me-2">Owner:</span>
+                                <field name="owner_id"/>
+                            </div>
+                            <div class="mb-2">
+                                <field name="total_progress" widget="progressbar"/>
+                            </div>
+                            <div class="text-muted">
+                                Aligned Children:
+                                <field name="child_objective_ids" widget="one2many_counter"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_c18_okr_objective" model="ir.actions.act_window">
+        <field name="name">Objectives</field>
+        <field name="res_model">c18.okr.objective</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_objective_search"/>
+    </record>
+
+    <record id="action_c18_my_okr_objective" model="ir.actions.act_window">
+        <field name="name">My Objectives</field>
+        <field name="res_model">c18.okr.objective</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_objective_search"/>
+        <field name="domain">[('owner_id', '=', uid)]</field>
+        <field name="context">{'search_default_group_by_cycle': 1}</field>
+    </record>
+
+    <record id="action_c18_department_okr_objective" model="ir.actions.act_window">
+        <field name="name">My Department Objectives</field>
+        <field name="res_model">c18.okr.objective</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_c18_okr_objective_search"/>
+        <field name="domain">[('is_my_department', '=', True)]</field>
+        <field name="context">{'search_default_group_by_owner': 1}</field>
+    </record>
+
+    <record id="action_c18_okr_hierarchy" model="ir.actions.act_window">
+        <field name="name">Hierarchy Chart</field>
+        <field name="res_model">c18.okr.objective</field>
+        <field name="view_mode">kanban,list,pivot,graph,form</field>
+        <field name="view_id" ref="view_c18_okr_objective_hierarchy_kanban"/>
+        <field name="search_view_id" ref="view_c18_okr_objective_search"/>
+        <field name="context">{'group_by': 'parent_objective_id'}</field>
+    </record>
+
+    <menuitem
+        id="menu_c18_okr_objective"
+        name="Objectives"
+        parent="menu_c18_performance_operation"
+        action="action_c18_okr_objective"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_c18_my_okr_objective"
+        name="My Objectives"
+        parent="menu_c18_performance_operation"
+        action="action_c18_my_okr_objective"
+        sequence="8"
+    />
+
+    <menuitem
+        id="menu_c18_department_okr_objective"
+        name="My Department Objectives"
+        parent="menu_c18_performance_operation"
+        action="action_c18_department_okr_objective"
+        sequence="9"
+        groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive"
+    />
+
+    <menuitem
+        id="menu_c18_okr_hierarchy"
+        name="Hierarchy Chart"
+        parent="menu_c18_performance_operation"
+        action="action_c18_okr_hierarchy"
+        sequence="15"
+    />
+</odoo>

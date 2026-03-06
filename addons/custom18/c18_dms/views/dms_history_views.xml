@@ -1,0 +1,52 @@
+<odoo>
+    <record id="view_c18_dms_history_tree" model="ir.ui.view">
+        <field name="name">c18.dms.history.tree</field>
+        <field name="model">c18.dms.history</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="document_id"/>
+                <field name="attachment_id"/>
+                <field name="version_date"/>
+                <button name="action_preview_attachment" type="object" string="Preview"/>
+                <button name="action_download_attachment" type="object" string="Download"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_history_form" model="ir.ui.view">
+        <field name="name">c18.dms.history.form</field>
+        <field name="model">c18.dms.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="document_id"/>
+                        <field name="attachment_id"/>
+                        <field name="version_date"/>
+                        <field name="version_note"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_preview_attachment" type="object" string="Preview" class="btn-secondary"/>
+                    <button name="action_download_attachment" type="object" string="Download" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_history" model="ir.actions.act_window">
+        <field name="name">Version History</field>
+        <field name="res_model">c18.dms.history</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_c18_dms_history"
+        name="Version History"
+        parent="menu_c18_dms_operation"
+        action="action_c18_dms_history"
+        sequence="20"
+    />
+</odoo>

@@ -1,0 +1,145 @@
+<odoo>
+    <record id="view_c18_kpi_checkin_tree" model="ir.ui.view">
+        <field name="name">c18.kpi.checkin.tree</field>
+        <field name="model">c18.kpi.checkin</field>
+        <field name="arch" type="xml">
+            <list default_order="checkin_date desc,id desc">
+                <field name="name"/>
+                <field name="kpi_id"/>
+                <field name="department_id"/>
+                <field name="period_date"/>
+                <field name="actual_value"/>
+                <field name="checkin_date"/>
+                <field name="approval_state" widget="badge"
+                    decoration-warning="approval_state == 'pending'"
+                    decoration-success="approval_state == 'approved'"
+                    decoration-danger="approval_state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_c18_kpi_checkin_form" model="ir.ui.view">
+        <field name="name">c18.kpi.checkin.form</field>
+        <field name="model">c18.kpi.checkin</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit_for_approval" type="object" string="Submit" invisible="approval_state != 'rejected'"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary" groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive" invisible="approval_state == 'approved'"/>
+                    <button name="action_reject" type="object" string="Reject" groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive" invisible="approval_state == 'rejected'"/>
+                    <field name="approval_state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="kpi_id"/>
+                        <field name="department_id" readonly="1"/>
+                        <field name="actual_value"/>
+                        <field name="checkin_date"/>
+                        <field name="period_date"/>
+                        <field name="approved_by" readonly="1"/>
+                        <field name="approved_date" readonly="1"/>
+                        <field name="manager_comment" groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive"/>
+                        <field name="note"/>
+                        <field name="evidence_attachment_ids" widget="many2many_binary"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_c18_kpi_checkin_search" model="ir.ui.view">
+        <field name="name">c18.kpi.checkin.search</field>
+        <field name="model">c18.kpi.checkin</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="kpi_id"/>
+                <field name="department_id"/>
+                <field name="cycle_id"/>
+                <field name="approval_state"/>
+                <field name="period_date"/>
+                <filter name="filter_my_department" string="My Department" domain="[('is_my_department', '=', True)]"/>
+                <filter name="filter_pending" string="Pending Approval" domain="[('approval_state', '=', 'pending')]"/>
+                <filter name="filter_approved" string="Approved" domain="[('approval_state', '=', 'approved')]"/>
+                <filter name="filter_rejected" string="Rejected" domain="[('approval_state', '=', 'rejected')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_kpi" string="KPI" context="{'group_by': 'kpi_id'}"/>
+                    <filter name="group_by_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_cycle" string="Cycle" context="{'group_by': 'cycle_id'}"/>
+                    <filter name="group_by_approval" string="Approval" context="{'group_by': 'approval_state'}"/>
+                    <filter name="group_by_date" string="Date" context="{'group_by': 'checkin_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_c18_kpi_checkin" model="ir.actions.act_window">
+        <field name="name">KPI Check-ins</field>
+        <field name="res_model">c18.kpi.checkin</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_kpi_checkin_search"/>
+    </record>
+
+    <record id="action_c18_my_kpi_checkin" model="ir.actions.act_window">
+        <field name="name">My Check-ins</field>
+        <field name="res_model">c18.kpi.checkin</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_kpi_checkin_search"/>
+        <field name="domain">[('kpi_id.owner_id', '=', uid)]</field>
+        <field name="context">{'search_default_group_by_kpi': 1}</field>
+    </record>
+
+    <record id="action_c18_department_kpi_checkin" model="ir.actions.act_window">
+        <field name="name">My Department Check-ins</field>
+        <field name="res_model">c18.kpi.checkin</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_kpi_checkin_search"/>
+        <field name="domain">[('is_my_department', '=', True)]</field>
+        <field name="context">{'search_default_group_by_approval': 1}</field>
+    </record>
+
+    <record id="action_c18_pending_kpi_checkin" model="ir.actions.act_window">
+        <field name="name">Pending Approval Check-ins</field>
+        <field name="res_model">c18.kpi.checkin</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_kpi_checkin_search"/>
+        <field name="domain">[('approval_state', '=', 'pending')]</field>
+        <field name="context">{'search_default_group_by_department': 1}</field>
+    </record>
+
+    <record id="action_c18_rejected_kpi_checkin" model="ir.actions.act_window">
+        <field name="name">Rejected Check-ins</field>
+        <field name="res_model">c18.kpi.checkin</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_c18_kpi_checkin_search"/>
+        <field name="domain">[('approval_state', '=', 'rejected')]</field>
+        <field name="context">{'search_default_group_by_department': 1}</field>
+    </record>
+
+    <menuitem
+        id="menu_c18_kpi_checkin"
+        name="Check-ins"
+        parent="menu_c18_performance_operation"
+        action="action_c18_kpi_checkin"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_c18_my_kpi_checkin"
+        name="My Check-ins"
+        parent="menu_c18_performance_operation"
+        action="action_c18_my_kpi_checkin"
+        sequence="28"
+    />
+
+    <menuitem
+        id="menu_c18_department_kpi_checkin"
+        name="My Department Check-ins"
+        parent="menu_c18_performance_operation"
+        action="action_c18_department_kpi_checkin"
+        sequence="29"
+        groups="c18_performance.group_c18_performance_manager,c18_performance.group_c18_performance_executive"
+    />
+</odoo>

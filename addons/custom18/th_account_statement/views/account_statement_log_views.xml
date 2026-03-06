@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Log List View -->
+    <record id="view_account_statement_log_list" model="ir.ui.view">
+        <field name="name">account.statement.log.list</field>
+        <field name="model">account.statement.log</field>
+        <field name="arch" type="xml">
+            <list string="Statement Logs" decoration-danger="state == 'failed'" decoration-success="state == 'sent'">
+                <field name="sent_date"/>
+                <field name="partner_id"/>
+                <field name="statement_type"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="email_to"/>
+                <field name="sent_by"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'sent'"
+                       decoration-danger="state == 'failed'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Log Form View -->
+    <record id="view_account_statement_log_form" model="ir.ui.view">
+        <field name="name">account.statement.log.form</field>
+        <field name="model">account.statement.log</field>
+        <field name="arch" type="xml">
+            <form string="Statement Log" create="false" edit="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Statement Info">
+                            <field name="partner_id"/>
+                            <field name="statement_type"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Delivery Info">
+                            <field name="sent_date"/>
+                            <field name="sent_by"/>
+                            <field name="email_to"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'sent'"
+                                   decoration-danger="state == 'failed'"/>
+                        </group>
+                    </group>
+                    <group string="Notes" invisible="not notes">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Log Search View -->
+    <record id="view_account_statement_log_search" model="ir.ui.view">
+        <field name="name">account.statement.log.search</field>
+        <field name="model">account.statement.log</field>
+        <field name="arch" type="xml">
+            <search string="Search Statement Logs">
+                <field name="partner_id"/>
+                <field name="email_to"/>
+                <field name="sent_by"/>
+                <filter string="Sent" name="filter_sent" domain="[('state', '=', 'sent')]"/>
+                <filter string="Failed" name="filter_failed" domain="[('state', '=', 'failed')]"/>
+                <separator/>
+                <filter string="Customer Statement" name="filter_customer"
+                        domain="[('statement_type', '=', 'customer')]"/>
+                <filter string="Vendor Statement" name="filter_vendor"
+                        domain="[('statement_type', '=', 'vendor')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Statement Type" name="group_type" context="{'group_by': 'statement_type'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Sent By" name="group_sent_by" context="{'group_by': 'sent_by'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Log Action -->
+    <record id="action_account_statement_log" model="ir.actions.act_window">
+        <field name="name">Statement History</field>
+        <field name="res_model">account.statement.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_account_statement_log_search"/>
+    </record>
+
+</odoo>

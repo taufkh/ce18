@@ -1,0 +1,361 @@
+<odoo>
+    <record id="view_c18_dms_spread_graph" model="ir.ui.view">
+        <field name="name">c18.dms.spread.report.graph</field>
+        <field name="model">c18.dms.spread.report</field>
+        <field name="arch" type="xml">
+            <graph string="DMS Spread" type="bar">
+                <field name="project_id" type="row"/>
+                <field name="document_count" type="measure"/>
+                <field name="doc_type_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_spread_pivot" model="ir.ui.view">
+        <field name="name">c18.dms.spread.report.pivot</field>
+        <field name="model">c18.dms.spread.report</field>
+        <field name="arch" type="xml">
+            <pivot string="DMS Spread">
+                <field name="project_id" type="row"/>
+                <field name="doc_type_id" type="col"/>
+                <field name="document_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_directory_department_graph" model="ir.ui.view">
+        <field name="name">c18.dms.directory.department.report.graph</field>
+        <field name="model">c18.dms.directory.department.report</field>
+        <field name="arch" type="xml">
+            <graph string="Directories by Department" type="bar">
+                <field name="department_id" type="row"/>
+                <field name="directory_count" type="measure"/>
+                <field name="document_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_revision_activity_graph" model="ir.ui.view">
+        <field name="name">c18.dms.revision.activity.report.graph</field>
+        <field name="model">c18.dms.revision.activity.report</field>
+        <field name="arch" type="xml">
+            <graph string="Revision Activity" type="line">
+                <field name="version_month" type="row"/>
+                <field name="revision_count" type="measure"/>
+                <field name="document_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_spread" model="ir.actions.act_window">
+        <field name="name">DMS Spread</field>
+        <field name="res_model">c18.dms.spread.report</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <record id="action_c18_dms_directory_department" model="ir.actions.act_window">
+        <field name="name">Directories by Department</field>
+        <field name="res_model">c18.dms.directory.department.report</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <record id="action_c18_dms_revision_activity" model="ir.actions.act_window">
+        <field name="name">Revision Activity</field>
+        <field name="res_model">c18.dms.revision.activity.report</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <record id="view_c18_dms_share_audit_pivot" model="ir.ui.view">
+        <field name="name">c18.dms.share.audit.report.pivot</field>
+        <field name="model">c18.dms.share.audit.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Share Audit">
+                <field name="access_date" type="row"/>
+                <field name="document_id" type="col"/>
+                <field name="access_type" type="col"/>
+                <field name="access_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_share_audit_graph" model="ir.ui.view">
+        <field name="name">c18.dms.share.audit.report.graph</field>
+        <field name="model">c18.dms.share.audit.report</field>
+        <field name="arch" type="xml">
+            <graph string="Share Audit" type="bar">
+                <field name="access_date" type="row"/>
+                <field name="access_count" type="measure"/>
+                <field name="access_type" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_share_audit" model="ir.actions.act_window">
+        <field name="name">Share Audit</field>
+        <field name="res_model">c18.dms.share.audit.report</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <record id="action_c18_dms_expiring_documents" model="ir.actions.act_window">
+        <field name="name">Expiring Documents</field>
+        <field name="res_model">c18.dms.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('expiry_state', 'in', ['warning', 'expired'])]</field>
+    </record>
+
+    <record id="action_c18_dms_documents_by_status" model="ir.actions.act_window">
+        <field name="name">Documents by Status</field>
+        <field name="res_model">c18.dms.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'group_by': 'state'}</field>
+    </record>
+
+    <record id="action_c18_dms_overdue_reviews" model="ir.actions.act_window">
+        <field name="name">Overdue Reviews</field>
+        <field name="res_model">c18.dms.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('review_overdue', '=', True)]</field>
+    </record>
+
+    <record id="view_c18_dms_compliance_graph" model="ir.ui.view">
+        <field name="name">c18.dms.compliance.report.graph</field>
+        <field name="model">c18.dms.compliance.report</field>
+        <field name="arch" type="xml">
+            <graph string="DMS Compliance" type="bar">
+                <field name="department_id" type="row"/>
+                <field name="approved_count" type="measure"/>
+                <field name="review_overdue_count" type="measure"/>
+                <field name="retention_overdue_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_c18_dms_compliance_pivot" model="ir.ui.view">
+        <field name="name">c18.dms.compliance.report.pivot</field>
+        <field name="model">c18.dms.compliance.report</field>
+        <field name="arch" type="xml">
+            <pivot string="DMS Compliance">
+                <field name="department_id" type="row"/>
+                <field name="doc_type_id" type="col"/>
+                <field name="total_count" type="measure"/>
+                <field name="approved_count" type="measure"/>
+                <field name="review_overdue_count" type="measure"/>
+                <field name="retention_overdue_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_compliance" model="ir.actions.act_window">
+        <field name="name">Compliance Report</field>
+        <field name="res_model">c18.dms.compliance.report</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <record id="view_c18_dms_staff_board" model="ir.ui.view">
+        <field name="name">c18.dms.staff.board</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="DMS Staff Board">
+                <board style="1-1">
+                    <column>
+                        <action name="%(action_c18_dms_my_documents)d" string="My Documents" view_mode="kanban"/>
+                        <action name="%(action_c18_dms_document)d" string="All Documents" view_mode="list"/>
+                    </column>
+                    <column>
+                        <action name="%(action_c18_dms_expiring_documents)d" string="Expiring Documents" view_mode="list"/>
+                        <action name="%(action_c18_dms_history)d" string="Version History" view_mode="list"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_staff_board" model="ir.actions.act_window">
+        <field name="name">Staff Board</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="context">{'disable_toolbar': True}</field>
+        <field name="view_id" ref="view_c18_dms_staff_board"/>
+    </record>
+
+    <record id="view_c18_dms_supervisor_board" model="ir.ui.view">
+        <field name="name">c18.dms.supervisor.board</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="DMS Supervisor Board">
+                <board style="1-1">
+                    <column>
+                        <action name="%(action_c18_dms_pending_supervisor_reviews)d" string="Pending Supervisor Reviews" view_mode="list"/>
+                        <action name="%(action_c18_dms_overdue_reviews)d" string="Overdue Reviews" view_mode="list"/>
+                    </column>
+                    <column>
+                        <action name="%(action_c18_dms_documents_by_status)d" string="Documents by Status" view_mode="kanban"/>
+                        <action name="%(action_c18_dms_my_documents)d" string="My Documents" view_mode="list"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_supervisor_board" model="ir.actions.act_window">
+        <field name="name">Supervisor Board</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="context">{'disable_toolbar': True}</field>
+        <field name="view_id" ref="view_c18_dms_supervisor_board"/>
+    </record>
+
+    <record id="view_c18_dms_manager_board" model="ir.ui.view">
+        <field name="name">c18.dms.manager.board</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="DMS Manager Board">
+                <board style="2-1">
+                    <column>
+                        <action name="%(action_c18_dms_pending_manager_reviews)d" string="Pending Manager Reviews" view_mode="list"/>
+                        <action name="%(action_c18_dms_pending_supervisor_reviews)d" string="Pending Supervisor Reviews" view_mode="list"/>
+                        <action name="%(action_c18_dms_overdue_reviews)d" string="Overdue Reviews" view_mode="list"/>
+                    </column>
+                    <column>
+                        <action name="%(action_c18_dms_compliance)d" string="Compliance Report" view_mode="graph"/>
+                        <action name="%(action_c18_dms_documents_by_status)d" string="Documents by Status" view_mode="kanban"/>
+                        <action name="%(action_c18_dms_expiring_documents)d" string="Expiring Documents" view_mode="list"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_manager_board" model="ir.actions.act_window">
+        <field name="name">Manager Board</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="context">{'disable_toolbar': True}</field>
+        <field name="view_id" ref="view_c18_dms_manager_board"/>
+    </record>
+
+    <record id="view_c18_dms_executive_board" model="ir.ui.view">
+        <field name="name">c18.dms.executive.board</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="DMS Executive Dashboard">
+                <board style="2-1">
+                    <column>
+                        <action name="%(action_c18_dms_spread)d" string="DMS Spread" view_mode="graph"/>
+                        <action name="%(action_c18_dms_directory_department)d" string="Directories by Department" view_mode="graph"/>
+                        <action name="%(action_c18_dms_directory)d" string="Directories" view_mode="list"/>
+                        <action name="%(action_c18_dms_expiring_documents)d" string="Expiring Documents" view_mode="list"/>
+                        <action name="%(action_c18_dms_overdue_reviews)d" string="Overdue Reviews" view_mode="list"/>
+                    </column>
+                    <column>
+                        <action name="%(action_c18_dms_revision_activity)d" string="Revision Activity" view_mode="graph"/>
+                        <action name="%(action_c18_dms_compliance)d" string="Compliance Report" view_mode="graph"/>
+                        <action name="%(action_c18_dms_share_audit)d" string="Share Audit" view_mode="graph"/>
+                        <action name="%(action_c18_dms_documents_by_status)d" string="Documents by Status" view_mode="kanban"/>
+                        <action name="%(action_c18_dms_history)d" string="Version History" view_mode="list"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_c18_dms_executive_board" model="ir.actions.act_window">
+        <field name="name">Management Board</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="context">{'disable_toolbar': True}</field>
+        <field name="view_id" ref="view_c18_dms_executive_board"/>
+    </record>
+
+    <record id="menu_c18_dms_root" model="ir.ui.menu">
+        <field name="action" eval="'ir.actions.act_window,%d' % ref('action_c18_dms_document')"/>
+    </record>
+
+    <menuitem
+        id="menu_c18_dms_staff_board"
+        name="Staff Board"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_staff_board"
+        sequence="5"
+        groups="c18_dms.group_c18_dms_user"
+    />
+
+    <menuitem
+        id="menu_c18_dms_supervisor_board"
+        name="Supervisor Board"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_supervisor_board"
+        sequence="6"
+        groups="c18_dms.group_c18_dms_supervisor,c18_dms.group_c18_dms_manager,c18_dms.group_c18_dms_executive"
+    />
+
+    <menuitem
+        id="menu_c18_dms_manager_board"
+        name="Manager Board"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_manager_board"
+        sequence="7"
+        groups="c18_dms.group_c18_dms_manager,c18_dms.group_c18_dms_executive"
+    />
+
+    <menuitem
+        id="menu_c18_dms_executive_board"
+        name="Management Board"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_executive_board"
+        sequence="8"
+        groups="c18_dms.group_c18_dms_executive"
+    />
+
+    <menuitem
+        id="menu_c18_dms_spread"
+        name="DMS Spread"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_spread"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_c18_dms_directory_department"
+        name="Directories by Department"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_directory_department"
+        sequence="15"
+    />
+
+    <menuitem
+        id="menu_c18_dms_revision_activity"
+        name="Revision Activity"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_revision_activity"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_c18_dms_share_audit"
+        name="Share Audit"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_share_audit"
+        sequence="25"
+    />
+
+    <menuitem
+        id="menu_c18_dms_compliance"
+        name="Compliance Report"
+        parent="menu_c18_dms_dashboard"
+        action="action_c18_dms_compliance"
+        sequence="30"
+    />
+
+    <menuitem
+        id="menu_c18_dms_overdue_reviews"
+        name="Overdue Reviews"
+        parent="menu_c18_dms_operation"
+        action="action_c18_dms_overdue_reviews"
+        sequence="20"
+    />
+</odoo>

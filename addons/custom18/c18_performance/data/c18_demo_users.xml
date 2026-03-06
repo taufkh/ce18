@@ -1,0 +1,88 @@
+<odoo>
+    <record id="base.user_admin" model="res.users">
+        <field name="groups_id" eval="[
+            (4, ref('c18_performance.group_c18_performance_executive')),
+            (4, ref('c18_dms.group_c18_dms_executive'))
+        ]"/>
+    </record>
+
+    <record id="user_c18_team_a" model="res.users">
+        <field name="name">C18 Team A User</field>
+        <field name="login">c18.team.a</field>
+        <field name="password">demo123</field>
+        <field name="email">c18.team.a@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_user')])]"/>
+    </record>
+
+    <record id="employee_c18_team_a" model="hr.employee">
+        <field name="name">C18 Team A User</field>
+        <field name="user_id" ref="user_c18_team_a"/>
+        <field name="department_id" ref="c18_department_team_a"/>
+        <field name="work_email">c18.team.a@example.com</field>
+    </record>
+
+    <record id="user_c18_dms" model="res.users">
+        <field name="name">C18 DMS User</field>
+        <field name="login">c18.dms.user</field>
+        <field name="password">demo123</field>
+        <field name="email">c18.dms.user@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_dms.group_c18_dms_user')])]"/>
+    </record>
+
+    <record id="employee_c18_dms" model="hr.employee">
+        <field name="name">C18 DMS User</field>
+        <field name="user_id" ref="user_c18_dms"/>
+        <field name="department_id" ref="c18_dms.c18_dms_department_corporate"/>
+        <field name="work_email">c18.dms.user@example.com</field>
+    </record>
+
+    <record id="user_c18_manager" model="res.users">
+        <field name="name">C18 Manager</field>
+        <field name="login">c18.manager</field>
+        <field name="password">demo123</field>
+        <field name="email">c18.manager@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_manager'), ref('c18_dms.group_c18_dms_manager')])]"/>
+    </record>
+
+    <record id="user_c18_executive" model="res.users">
+        <field name="name">C18 Executive</field>
+        <field name="login">c18.executive</field>
+        <field name="password">demo123</field>
+        <field name="email">c18.executive@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_executive'), ref('c18_dms.group_c18_dms_executive')])]"/>
+    </record>
+
+    <record id="user_c18_management_demo" model="res.users">
+        <field name="name">Sharlene Rhodes</field>
+        <field name="login">c18.management</field>
+        <field name="password">demo123</field>
+        <field name="email">sharlene.rhodes@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_executive')])]"/>
+    </record>
+
+    <record id="user_c18_hr_manager_demo" model="res.users">
+        <field name="name">Tina Williamson</field>
+        <field name="login">c18.hr.manager</field>
+        <field name="password">demo123</field>
+        <field name="email">tina.williamson@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_manager')])]"/>
+    </record>
+
+    <record id="user_c18_rd_supervisor_demo" model="res.users">
+        <field name="name">Ronnie Hart</field>
+        <field name="login">c18.rd.supervisor</field>
+        <field name="password">demo123</field>
+        <field name="email">ronnie.hart@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_manager')])]"/>
+    </record>
+
+    <record id="user_c18_project_staff_demo" model="res.users">
+        <field name="name">Paul Williams</field>
+        <field name="login">c18.project.staff</field>
+        <field name="password">demo123</field>
+        <field name="email">paul.williams@example.com</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_user'), ref('c18_performance.group_c18_performance_user')])]"/>
+    </record>
+
+    <function model="c18.okr.cycle" name="sync_demo_user_links"/>
+</odoo>

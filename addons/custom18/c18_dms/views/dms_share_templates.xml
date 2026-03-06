@@ -1,0 +1,94 @@
+<odoo>
+    <template id="portal_document_page" name="C18 DMS Shared Document">
+        <html>
+            <head>
+                <title>Shared Document</title>
+                <style>
+                    body { font-family: "Helvetica Neue", Arial, sans-serif; background: linear-gradient(135deg, #e6fffb 0%, #f8fafc 45%, #eef2ff 100%); color: #1f2933; margin: 0; padding: 32px; }
+                    .shell { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+                    .card { background: rgba(255,255,255,0.92); border-radius: 24px; padding: 32px; box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12); backdrop-filter: blur(16px); }
+                    .brand { display: inline-flex; align-items: center; gap: 12px; color: #0f766e; font-weight: 700; margin-bottom: 12px; }
+                    .brand-badge { width: 42px; height: 42px; border-radius: 14px; background: linear-gradient(135deg, #0f766e, #155e75); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; }
+                    .eyebrow { color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; margin-bottom: 8px; }
+                    h1 { margin: 0 0 12px; font-size: 32px; line-height: 1.1; }
+                    .lede { color: #475569; font-size: 16px; margin-bottom: 18px; }
+                    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 24px 0; }
+                    .meta div { background: #f8fafc; border-radius: 16px; padding: 14px 16px; border: 1px solid #e2e8f0; }
+                    .label { color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+                    .value { font-size: 16px; font-weight: 600; margin-top: 4px; }
+                    .actions { display: flex; gap: 12px; margin-top: 24px; }
+                    .btn { display: inline-block; background: #0f766e; color: #fff; text-decoration: none; padding: 12px 18px; border-radius: 999px; font-weight: 600; }
+                    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+                    .preview { width: 100%; min-height: 520px; border: 1px solid #dbeafe; border-radius: 20px; overflow: hidden; background: #fff; }
+                    .preview iframe, .preview img { width: 100%; min-height: 520px; border: 0; display: block; object-fit: contain; background: #fff; }
+                    .notice { background: #ecfeff; border: 1px solid #a5f3fc; color: #155e75; border-radius: 14px; padding: 14px 16px; margin-top: 18px; }
+                    .muted { color: #64748b; }
+                    @media (max-width: 900px) {
+                        .shell { grid-template-columns: 1fr; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="shell">
+                    <div class="card">
+                        <div class="brand">
+                            <span class="brand-badge">D</span>
+                            <span>C18 DMS Secure Share</span>
+                        </div>
+                        <div class="eyebrow">Shared Document</div>
+                        <h1><t t-esc="document.name"/></h1>
+                        <p class="lede">This document has been shared through a controlled public link. Access is limited by approval status and share expiry rules.</p>
+                        <div class="meta">
+                            <div>
+                                <div class="label">Directory</div>
+                                <div class="value"><t t-esc="document.directory_id.complete_name or '-'"/></div>
+                            </div>
+                            <div>
+                                <div class="label">Document Type</div>
+                                <div class="value"><t t-esc="document.doc_type_id.name"/></div>
+                            </div>
+                            <div>
+                                <div class="label">Status</div>
+                                <div class="value"><t t-esc="dict(document._fields['state'].selection).get(document.state)"/></div>
+                            </div>
+                            <div>
+                                <div class="label">Share Active Until</div>
+                                <div class="value"><t t-esc="document.share_active_until or '-'"/></div>
+                            </div>
+                            <div>
+                                <div class="label">Document Expiry</div>
+                                <div class="value"><t t-esc="document.expiry_date or '-'"/></div>
+                            </div>
+                            <div>
+                                <div class="label">Department</div>
+                                <div class="value"><t t-esc="document.effective_department_id.name or '-'"/></div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <a t-att-href="download_url" class="btn">Download Document</a>
+                            <a t-att-href="'/web#id=%s&amp;model=c18.dms.document&amp;view_type=form' % document.id" class="btn btn-secondary">Open In Odoo</a>
+                        </div>
+                        <div class="notice">
+                            Every page view and download from this public link is logged for audit purposes.
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="eyebrow">Preview</div>
+                        <t t-if="inline_preview">
+                            <div class="preview">
+                                <iframe t-if="document.attachment_id.mimetype == 'application/pdf'" t-att-src="preview_url"/>
+                                <img t-elif="document.attachment_id.mimetype and document.attachment_id.mimetype.startswith('image/')" t-att-src="preview_url" alt="Document preview"/>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="notice">
+                                Inline preview is available for PDF and image files. Use the download button to open this document locally.
+                            </div>
+                        </t>
+                        <p class="muted" style="margin-top: 18px;">Shared via secure token: <t t-esc="document.share_token"/></p>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

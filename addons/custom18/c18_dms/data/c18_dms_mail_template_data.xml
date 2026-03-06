@@ -1,0 +1,65 @@
+<odoo>
+    <record id="mail_template_c18_dms_supervisor_review_request" model="mail.template">
+        <field name="name">C18 DMS Supervisor Review Request</field>
+        <field name="model_id" ref="model_c18_dms_document"/>
+        <field name="subject">[DMS] Supervisor review required: {{ object.name }}</field>
+        <field name="body_html"><![CDATA[
+            <p>Hello,</p>
+            <p>Document <strong>{{ object.name }}</strong> has been submitted and requires your supervisor review.</p>
+            <p>Review deadline: <strong>{{ object.review_deadline or '-' }}</strong></p>
+            <p>Regards,<br/>C18 DMS</p>
+        ]]></field>
+    </record>
+
+    <record id="mail_template_c18_dms_manager_review_request" model="mail.template">
+        <field name="name">C18 DMS Manager Review Request</field>
+        <field name="model_id" ref="model_c18_dms_document"/>
+        <field name="subject">[DMS] Manager approval required: {{ object.name }}</field>
+        <field name="body_html"><![CDATA[
+            <p>Hello,</p>
+            <p>Document <strong>{{ object.name }}</strong> has passed supervisor review and needs final manager approval.</p>
+            <p>Approval deadline: <strong>{{ object.review_deadline or '-' }}</strong></p>
+            <p>Regards,<br/>C18 DMS</p>
+        ]]></field>
+    </record>
+
+    <record id="mail_template_c18_dms_rejected_notice" model="mail.template">
+        <field name="name">C18 DMS Rejected Notice</field>
+        <field name="model_id" ref="model_c18_dms_document"/>
+        <field name="subject">[DMS] Document rejected: {{ object.name }}</field>
+        <field name="body_html"><![CDATA[
+            <p>Hello,</p>
+            <p>Your document <strong>{{ object.name }}</strong> was rejected during review.</p>
+            <p>Reason: {{ object.reject_reason or 'No reason provided.' }}</p>
+            <p>Please revise and submit again.</p>
+            <p>Regards,<br/>C18 DMS</p>
+        ]]></field>
+    </record>
+
+    <record id="mail_template_c18_dms_sla_overdue" model="mail.template">
+        <field name="name">C18 DMS SLA Overdue Reminder</field>
+        <field name="model_id" ref="model_c18_dms_document"/>
+        <field name="subject">[DMS] SLA overdue reminder: {{ object.name }}</field>
+        <field name="body_html"><![CDATA[
+            <p>Hello,</p>
+            <p>Review SLA for <strong>{{ object.name }}</strong> is overdue.</p>
+            <p>State: <strong>{{ object.state }}</strong></p>
+            <p>Deadline: <strong>{{ object.review_deadline or '-' }}</strong></p>
+            <p>Please complete review as soon as possible.</p>
+            <p>Regards,<br/>C18 DMS</p>
+        ]]></field>
+    </record>
+
+    <record id="mail_template_c18_dms_lifecycle_review_due" model="mail.template">
+        <field name="name">C18 DMS Periodic Review Due</field>
+        <field name="model_id" ref="model_c18_dms_document"/>
+        <field name="subject">[DMS] Periodic review due: {{ object.name }}</field>
+        <field name="body_html"><![CDATA[
+            <p>Hello,</p>
+            <p>Periodic review is due for document <strong>{{ object.name }}</strong>.</p>
+            <p>Next review date: <strong>{{ object.next_review_date or '-' }}</strong></p>
+            <p>Retention due date: <strong>{{ object.retention_due_date or '-' }}</strong></p>
+            <p>Regards,<br/>C18 DMS</p>
+        ]]></field>
+    </record>
+</odoo>
