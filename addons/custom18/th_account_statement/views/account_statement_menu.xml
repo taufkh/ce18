@@ -5,7 +5,7 @@
     <menuitem
         id="menu_th_account_statement_root"
         name="Account Statement"
-        web_icon="th_account_statement,static/description/icon.svg"
+        web_icon="th_account_statement,static/description/icon.png"
         sequence="100"/>
 
     <!-- Generate Statement -->
