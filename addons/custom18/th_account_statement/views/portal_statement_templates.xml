@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_statement_entry" inherit_id="portal.portal_my_home" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-set="show_stmt_menu" t-value="request.env['ir.config_parameter'].sudo().get_param('th_account_statement.show_statement_portal_menu', 'False') == 'True'"/>
+            <t t-if="show_stmt_menu">
+                <a class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+                   href="/my/customer_statements">
+                    <span>Customer Statements</span>
+                    <span class="fa fa-chevron-right"/>
+                </a>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_customer_statements_page" name="Portal Customer Statements">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <div class="container mt-4 mb-5">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Customer Statements</h3>
+                        <t t-if="message">
+                            <div class="alert alert-info mt-2">
+                                <t t-esc="message"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
+                <form action="/my/customer_statements" method="get" class="row g-3 mb-4 mt-2">
+                    <div class="col-md-4">
+                        <label class="form-label">From</label>
+                        <input type="date" name="date_from" class="form-control"
+                               t-att-value="date_from and date_from.strftime('%Y-%m-%d') or ''"/>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">To</label>
+                        <input type="date" name="date_to" class="form-control"
+                               t-att-value="date_to and date_to.strftime('%Y-%m-%d') or ''"/>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button class="btn btn-primary" type="submit">Get Statement</button>
+                    </div>
+                </form>
+
+                <h4>Customer Statements By Filter</h4>
+                <div class="mb-3">
+                    <form action="/my/customer_statements/send/filtered" method="post" style="display:inline;">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="date_from" t-att-value="date_from and date_from.strftime('%Y-%m-%d') or ''"/>
+                        <input type="hidden" name="date_to" t-att-value="date_to and date_to.strftime('%Y-%m-%d') or ''"/>
+                        <button type="submit" class="btn btn-outline-primary me-2">Send Filtered Statement</button>
+                    </form>
+                    <a t-att-href="'/my/customer_statements/download/filtered/pdf?date_from=%s&amp;date_to=%s' % (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))"
+                       class="btn btn-outline-secondary me-2">Download Filtered Statement</a>
+                    <a t-att-href="'/my/customer_statements/download/filtered/xlsx?date_from=%s&amp;date_to=%s' % (date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))"
+                       class="btn btn-outline-secondary">Download Filtered Statement XLS</a>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <th>Invoice Date</th>
+                                <th>Invoice Due Date</th>
+                                <th class="text-end">Total Amount</th>
+                                <th class="text-end">Paid Amount</th>
+                                <th class="text-end">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Opening Balance</strong></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-end">0.00</td>
+                                <td class="text-end">0.00</td>
+                                <td class="text-end"><t t-esc="opening_balance"/></td>
+                            </tr>
+                            <tr t-foreach="filtered_moves" t-as="mv">
+                                <td><t t-esc="mv.name"/></td>
+                                <td><t t-esc="mv.invoice_date"/></td>
+                                <td><t t-esc="mv.invoice_date_due"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total - mv.amount_residual"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_residual"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>Total</strong></td>
+                                <td class="text-end"><strong><t t-esc="filtered_totals['amount']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="filtered_totals['paid']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="filtered_totals['balance']"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Customer Statements</h4>
+                <div class="mb-3">
+                    <form action="/my/customer_statements/send/normal" method="post" style="display:inline;">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="date_from" t-att-value="date_from and date_from.strftime('%Y-%m-%d') or ''"/>
+                        <input type="hidden" name="date_to" t-att-value="date_to and date_to.strftime('%Y-%m-%d') or ''"/>
+                        <button type="submit" class="btn btn-outline-primary me-2">Send Statement</button>
+                    </form>
+                    <a href="/my/customer_statements/download/normal/pdf" class="btn btn-outline-secondary me-2">Download Statement</a>
+                    <a href="/my/customer_statements/download/normal/xlsx" class="btn btn-outline-secondary">Download Statement XLS</a>
+                </div>
+                <div class="table-responsive mb-4">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <th>Invoice Date</th>
+                                <th>Invoice Due Date</th>
+                                <th class="text-end">Total Amount</th>
+                                <th class="text-end">Paid Amount</th>
+                                <th class="text-end">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="normal_moves" t-as="mv">
+                                <td><t t-esc="mv.name"/></td>
+                                <td><t t-esc="mv.invoice_date"/></td>
+                                <td><t t-esc="mv.invoice_date_due"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total - mv.amount_residual"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_residual"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>Total</strong></td>
+                                <td class="text-end"><strong><t t-esc="normal_totals['amount']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="normal_totals['paid']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="normal_totals['balance']"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Overdue Statements</h4>
+                <div class="mb-3">
+                    <form action="/my/customer_statements/send/overdue" method="post" style="display:inline;">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="date_from" t-att-value="date_from and date_from.strftime('%Y-%m-%d') or ''"/>
+                        <input type="hidden" name="date_to" t-att-value="date_to and date_to.strftime('%Y-%m-%d') or ''"/>
+                        <button type="submit" class="btn btn-outline-primary me-2">Send Overdue Statement</button>
+                    </form>
+                    <a href="/my/customer_statements/download/overdue/pdf" class="btn btn-outline-secondary me-2">Download Overdue Statement</a>
+                    <a href="/my/customer_statements/download/overdue/xlsx" class="btn btn-outline-secondary">Download Overdue Statement XLS</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <th>Invoice Date</th>
+                                <th>Invoice Due Date</th>
+                                <th class="text-end">Total Amount</th>
+                                <th class="text-end">Paid Amount</th>
+                                <th class="text-end">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="overdue_moves" t-as="mv">
+                                <td><t t-esc="mv.name"/></td>
+                                <td><t t-esc="mv.invoice_date"/></td>
+                                <td><t t-esc="mv.invoice_date_due"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_total - mv.amount_residual"/></td>
+                                <td class="text-end"><t t-esc="mv.amount_residual"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>Total</strong></td>
+                                <td class="text-end"><strong><t t-esc="overdue_totals['amount']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="overdue_totals['paid']"/></strong></td>
+                                <td class="text-end"><strong><t t-esc="overdue_totals['balance']"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5 class="mt-4">Ageing Summary</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>0-30 Days</th>
+                                <th>31-60 Days</th>
+                                <th>61-90 Days</th>
+                                <th>90+ Days</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><t t-esc="ageing['0_30']"/></td>
+                                <td><t t-esc="ageing['31_60']"/></td>
+                                <td><t t-esc="ageing['61_90']"/></td>
+                                <td><t t-esc="ageing['91_plus']"/></td>
+                                <td><strong><t t-esc="ageing['total']"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

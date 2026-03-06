@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rule_account_statement_log_user_limited" model="ir.rule">
+        <field name="name">Account Statement Log: own sender</field>
+        <field name="model_id" ref="model_account_statement_log"/>
+        <field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+        <field name="domain_force">[('sent_by', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_account_statement_log_manager_all" model="ir.rule">
+        <field name="name">Account Statement Log: manager all</field>
+        <field name="model_id" ref="model_account_statement_log"/>
+        <field name="groups" eval="[(4, ref('account.group_account_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>
