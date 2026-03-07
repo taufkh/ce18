@@ -99,6 +99,16 @@
                             <button name="action_print_overdue_customer_statement_xlsx" type="object" class="btn-secondary" string="Print Overdue Customer Statement XLS"/>
                         </div>
                     </group>
+
+                    <group string="Portal Share URL">
+                        <group>
+                            <field name="statement_share_url" readonly="1" widget="CopyClipboardChar"/>
+                        </group>
+                        <group>
+                            <button name="action_generate_statement_share_url" type="object" class="btn-secondary" string="Generate Share URL"/>
+                            <button name="action_open_statement_share_url" type="object" class="btn-secondary" string="Open Share URL"/>
+                        </group>
+                    </group>
                 </page>
             </xpath>
         </field>

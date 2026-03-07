@@ -208,4 +208,174 @@
         </t>
     </template>
 
+    <template id="portal_shared_statement_page" name="Public Shared Statement">
+        <t t-call="web.layout">
+            <style>
+                .th-statement-wrap { max-width: 1240px; margin: 32px auto 56px; padding: 0 16px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1f2d3d; }
+                .th-statement-card { background: #ffffff; border: 1px solid #dfe5ec; border-radius: 10px; box-shadow: 0 8px 24px rgba(26, 37, 47, 0.08); overflow: hidden; }
+                .th-header { background: linear-gradient(135deg, #2c3e50, #34495e); color: #fff; padding: 24px; }
+                .th-header h2 { margin: 0 0 8px; font-size: 28px; }
+                .th-meta { font-size: 14px; opacity: 0.95; }
+                .th-body { padding: 20px 24px 28px; }
+                .th-filter { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 18px; }
+                .th-field { display: flex; flex-direction: column; min-width: 180px; }
+                .th-field label { font-size: 12px; font-weight: 600; color: #425466; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .03em; }
+                .th-field input { border: 1px solid #cfd8e3; border-radius: 6px; padding: 8px 10px; font-size: 14px; }
+                .th-btn { border-radius: 6px; padding: 9px 14px; text-decoration: none; display: inline-block; font-weight: 600; border: 1px solid transparent; }
+                .th-btn-primary { background: #2c3e50; color: #fff; }
+                .th-btn-outline { border-color: #9db1c5; color: #2c3e50; background: #fff; }
+                .th-actions { margin: 10px 0 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+                .th-section-title { margin: 20px 0 10px; font-size: 20px; color: #2c3e50; }
+                .th-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+                .th-table th { background: #34495e; color: #fff; padding: 10px; border: 1px solid #2a3a4a; text-align: left; }
+                .th-table td { padding: 10px; border: 1px solid #d7dee6; background: #fff; }
+                .th-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+                .th-table .total-row td { background: #eff3f6; font-weight: 700; }
+                .th-table .opening-row td { background: #f8fafc; font-weight: 600; }
+                .th-grid { display: grid; grid-template-columns: repeat(3, minmax(190px, 1fr)); gap: 10px; margin-bottom: 14px; }
+                .th-kpi { border: 1px solid #dbe3ec; border-radius: 8px; padding: 12px; background: #fafcff; }
+                .th-kpi .lbl { font-size: 11px; text-transform: uppercase; color: #607287; letter-spacing: .04em; margin-bottom: 4px; }
+                .th-kpi .val { font-size: 22px; font-weight: 700; color: #243546; }
+                .th-ageing td { text-align: right; font-variant-numeric: tabular-nums; }
+                @media (max-width: 820px) {
+                    .th-grid { grid-template-columns: 1fr; }
+                    .th-header h2 { font-size: 22px; }
+                    .th-body { padding: 16px; }
+                    .th-table { font-size: 13px; }
+                }
+            </style>
+
+            <div class="th-statement-wrap">
+                <div class="th-statement-card">
+                    <div class="th-header">
+                        <h2>Statement of Account</h2>
+                        <div class="th-meta">
+                            Partner: <strong><t t-esc="partner.name"/></strong><br/>
+                            Date: <t t-esc="date_from" t-options='{"widget": "date"}'/> - <t t-esc="date_to" t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+
+                    <div class="th-body">
+                        <form t-att-action="'/statement/share/%s' % partner.id" method="get" class="th-filter">
+                            <input type="hidden" name="token" t-att-value="token"/>
+                            <div class="th-field">
+                                <label>From</label>
+                                <input type="date" name="date_from"
+                                       t-att-value="date_from and date_from.strftime('%Y-%m-%d') or ''"/>
+                            </div>
+                            <div class="th-field">
+                                <label>To</label>
+                                <input type="date" name="date_to"
+                                       t-att-value="date_to and date_to.strftime('%Y-%m-%d') or ''"/>
+                            </div>
+                            <div>
+                                <button class="th-btn th-btn-primary" type="submit">Get Statement</button>
+                            </div>
+                        </form>
+
+                        <div class="th-grid">
+                            <div class="th-kpi">
+                                <div class="lbl">Opening Balance</div>
+                                <div class="val">
+                                    <t t-esc="opening_balance" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </div>
+                            </div>
+                            <div class="th-kpi">
+                                <div class="lbl">Total In Period</div>
+                                <div class="val">
+                                    <t t-esc="filtered_totals['amount']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </div>
+                            </div>
+                            <div class="th-kpi">
+                                <div class="lbl">Outstanding</div>
+                                <div class="val">
+                                    <t t-esc="filtered_totals['balance']" t-options='{"widget": "monetary", "display_currency": currency}'/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="th-section-title">Customer Statements By Filter</h3>
+                        <div class="th-actions">
+                            <a t-att-href="'/statement/share/%s/download/filtered/pdf?token=%s&amp;date_from=%s&amp;date_to=%s' % (partner.id, token, date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))"
+                               class="th-btn th-btn-outline">View Filtered Statement PDF</a>
+                            <a t-att-href="'/statement/share/%s/download/filtered/xlsx?token=%s&amp;date_from=%s&amp;date_to=%s' % (partner.id, token, date_from.strftime('%Y-%m-%d'), date_to.strftime('%Y-%m-%d'))"
+                               class="th-btn th-btn-outline">Download Filtered Statement XLS</a>
+                        </div>
+
+                        <div style="overflow-x:auto;">
+                            <table class="th-table">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice Number</th>
+                                        <th>Invoice Date</th>
+                                        <th>Due Date</th>
+                                        <th class="num">Total Amount</th>
+                                        <th class="num">Paid Amount</th>
+                                        <th class="num">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="opening-row">
+                                        <td>Opening Balance</td>
+                                        <td/>
+                                        <td/>
+                                        <td class="num"><t t-esc="0.0" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="0.0" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="opening_balance" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                    </tr>
+                                    <tr t-foreach="filtered_moves" t-as="mv">
+                                        <td><t t-esc="mv.name"/></td>
+                                        <td><t t-esc="mv.invoice_date" t-options='{"widget": "date"}'/></td>
+                                        <td><t t-esc="mv.invoice_date_due" t-options='{"widget": "date"}'/></td>
+                                        <td class="num"><t t-esc="mv.amount_total" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="mv.amount_total - mv.amount_residual" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="mv.amount_residual" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                    </tr>
+                                    <tr class="total-row">
+                                        <td colspan="3">Total</td>
+                                        <td class="num"><t t-esc="filtered_totals['amount']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="filtered_totals['paid']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td class="num"><t t-esc="filtered_totals['balance']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="th-section-title">Ageing Summary</h3>
+                        <div style="overflow-x:auto;">
+                            <table class="th-table th-ageing">
+                                <thead>
+                                    <tr>
+                                        <th>0-30 Days</th>
+                                        <th>31-60 Days</th>
+                                        <th>61-90 Days</th>
+                                        <th>91+ Days</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="total-row">
+                                        <td><t t-esc="ageing['0_30']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td><t t-esc="ageing['31_60']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td><t t-esc="ageing['61_90']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td><t t-esc="ageing['91_plus']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                        <td><t t-esc="ageing['total']" t-options='{"widget": "monetary", "display_currency": currency}'/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="th-section-title">Download Full Statements</h3>
+                        <div class="th-actions">
+                            <a t-att-href="'/statement/share/%s/download/normal/pdf?token=%s' % (partner.id, token)" class="th-btn th-btn-outline">View Statement PDF</a>
+                            <a t-att-href="'/statement/share/%s/download/normal/xlsx?token=%s' % (partner.id, token)" class="th-btn th-btn-outline">Download Statement XLS</a>
+                            <a t-att-href="'/statement/share/%s/download/overdue/pdf?token=%s' % (partner.id, token)" class="th-btn th-btn-outline">View Overdue PDF</a>
+                            <a t-att-href="'/statement/share/%s/download/overdue/xlsx?token=%s' % (partner.id, token)" class="th-btn th-btn-outline">Download Overdue XLS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
 </odoo>

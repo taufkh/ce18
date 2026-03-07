@@ -1,4 +1,6 @@
 from datetime import date
+from urllib.parse import quote_plus
+from uuid import uuid4
 
 from odoo import api, fields, models
 
@@ -108,6 +110,15 @@ class ResPartner(models.Model):
         currency_field="company_currency_id",
         compute="_compute_statement_dashboard_data",
     )
+    statement_share_token = fields.Char(
+        string="Statement Share Token",
+        copy=False,
+        readonly=True,
+    )
+    statement_share_url = fields.Char(
+        string="Statement Share URL",
+        compute="_compute_statement_share_url",
+    )
 
     @api.depends_context("allowed_company_ids")
     def _compute_company_currency_id(self):
@@ -212,6 +223,21 @@ class ResPartner(models.Model):
             partner.ageing_91_plus = ageing["91_plus"]
             partner.ageing_total = ageing["total"]
 
+    @api.depends("statement_share_token")
+    def _compute_statement_share_url(self):
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url", "")
+        db_name = self.env.cr.dbname
+        for partner in self:
+            commercial_partner = partner.commercial_partner_id
+            token = commercial_partner.statement_share_token
+            if base_url and commercial_partner.id and token:
+                share_path = f"/statement/share/{commercial_partner.id}?token={token}"
+                partner.statement_share_url = (
+                    f"{base_url}/web/login?db={db_name}&redirect={quote_plus(share_path)}"
+                )
+            else:
+                partner.statement_share_url = False
+
     def _create_statement_wizard(
         self,
         statement_type,
@@ -309,3 +335,33 @@ class ResPartner(models.Model):
             payment_status_filter="all",
         )
         return wizard.action_export_xlsx()
+
+    def action_generate_statement_share_url(self):
+        self.ensure_one()
+        commercial_partner = self.commercial_partner_id
+        if not commercial_partner.statement_share_token:
+            commercial_partner.statement_share_token = uuid4().hex
+            message = "Portal statement share URL has been generated."
+        else:
+            message = "Portal statement share URL is already available."
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Share URL Generated",
+                "message": message,
+                "type": "success",
+                "sticky": False,
+            },
+        }
+
+    def action_open_statement_share_url(self):
+        self.ensure_one()
+        commercial_partner = self.commercial_partner_id
+        if not commercial_partner.statement_share_token:
+            commercial_partner.statement_share_token = uuid4().hex
+        return {
+            "type": "ir.actions.act_url",
+            "url": commercial_partner.statement_share_url,
+            "target": "new",
+        }

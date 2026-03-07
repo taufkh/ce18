@@ -5,3 +5,5 @@ access_account_statement_wizard_user,account.statement.wizard.user,model_account
 access_account_statement_wizard_internal,account.statement.wizard.internal,model_account_statement_wizard,base.group_user,1,1,1,1
 access_account_statement_overview_user,account.statement.overview.user,model_account_statement_overview,account.group_account_user,1,1,1,1
 access_account_statement_overview_line_user,account.statement.overview.line.user,model_account_statement_overview_line,account.group_account_user,1,1,1,1
+access_account_statement_overview_manager,account.statement.overview.manager,model_account_statement_overview,account.group_account_manager,1,1,1,1
+access_account_statement_overview_line_manager,account.statement.overview.line.manager,model_account_statement_overview_line,account.group_account_manager,1,1,1,1

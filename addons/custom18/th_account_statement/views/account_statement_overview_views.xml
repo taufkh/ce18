@@ -39,9 +39,10 @@
                                 <field name="days_overdue"/>
                                 <field name="age_bucket"/>
                                 <field name="payment_state"/>
-                                <field name="total_amount" sum="Total"/>
-                                <field name="paid_amount" sum="Paid"/>
-                                <field name="residual_amount" sum="Outstanding"/>
+                                <field name="currency_id" invisible="1" optional="hide"/>
+                                <field name="total_amount"/>
+                                <field name="paid_amount"/>
+                                <field name="residual_amount"/>
                             </list>
                         </field>
                     </group>
@@ -64,9 +65,10 @@
                                 <field name="days_overdue"/>
                                 <field name="age_bucket"/>
                                 <field name="payment_state"/>
-                                <field name="total_amount" sum="Total"/>
-                                <field name="paid_amount" sum="Paid"/>
-                                <field name="residual_amount" sum="Outstanding"/>
+                                <field name="currency_id" invisible="1" optional="hide"/>
+                                <field name="total_amount"/>
+                                <field name="paid_amount"/>
+                                <field name="residual_amount"/>
                             </list>
                         </field>
                     </group>
