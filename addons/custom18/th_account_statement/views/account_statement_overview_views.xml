@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_statement_overview_form" model="ir.ui.view">
+        <field name="name">account.statement.overview.form</field>
+        <field name="model">account.statement.overview</field>
+        <field name="arch" type="xml">
+            <form string="Statement History" create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_refresh" type="object" string="Refresh" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="as_of_date"/>
+                        </group>
+                        <group>
+                            <field name="receivable_total"/>
+                            <field name="payable_total"/>
+                        </group>
+                    </group>
+
+                    <group string="Aged Receivable Summary">
+                        <field name="receivable_not_due"/>
+                        <field name="receivable_1_30"/>
+                        <field name="receivable_31_60"/>
+                        <field name="receivable_61_90"/>
+                        <field name="receivable_91_plus"/>
+                    </group>
+
+                    <group string="Aged Receivable (Unpaid Customer Transactions)">
+                        <field name="receivable_line_ids" nolabel="1">
+                            <list create="false" edit="false" delete="false" default_order="due_date asc">
+                                <field name="partner_id"/>
+                                <field name="move_id"/>
+                                <field name="invoice_date"/>
+                                <field name="due_date"/>
+                                <field name="days_overdue"/>
+                                <field name="age_bucket"/>
+                                <field name="payment_state"/>
+                                <field name="total_amount" sum="Total"/>
+                                <field name="paid_amount" sum="Paid"/>
+                                <field name="residual_amount" sum="Outstanding"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <group string="Aged Payable Summary">
+                        <field name="payable_not_due"/>
+                        <field name="payable_1_30"/>
+                        <field name="payable_31_60"/>
+                        <field name="payable_61_90"/>
+                        <field name="payable_91_plus"/>
+                    </group>
+
+                    <group string="Aged Payable (Unpaid Vendor Transactions)">
+                        <field name="payable_line_ids" nolabel="1">
+                            <list create="false" edit="false" delete="false" default_order="due_date asc">
+                                <field name="partner_id"/>
+                                <field name="move_id"/>
+                                <field name="invoice_date"/>
+                                <field name="due_date"/>
+                                <field name="days_overdue"/>
+                                <field name="age_bucket"/>
+                                <field name="payment_state"/>
+                                <field name="total_amount" sum="Total"/>
+                                <field name="paid_amount" sum="Paid"/>
+                                <field name="residual_amount" sum="Outstanding"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_account_statement_overview" model="ir.actions.server">
+        <field name="name">Statement History</field>
+        <field name="model_id" ref="model_account_statement_overview"/>
+        <field name="state">code</field>
+        <field name="code">action = env['account.statement.overview'].action_open_overview()</field>
+    </record>
+
+</odoo>

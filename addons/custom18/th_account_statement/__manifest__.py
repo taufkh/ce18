@@ -26,6 +26,7 @@
         'views/res_partner_statement_views.xml',
         'views/res_partner_action_server_views.xml',
         'views/portal_statement_templates.xml',
+        'views/account_statement_overview_views.xml',
         'views/account_statement_log_views.xml',
         'wizard/account_statement_wizard_views.xml',
         'report/account_statement_report.xml',

@@ -3,10 +3,11 @@
 
     <template id="report_account_statement_template">
         <t t-call="web.html_container">
-            <t t-set="all_data" t-value="doc.get_all_report_data()"/>
-            <t t-foreach="all_data" t-as="data">
-                <t t-call="web.internal_layout">
-                    <div class="page">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="all_data" t-value="doc.get_all_report_data()"/>
+                <t t-foreach="all_data" t-as="data">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
 
                         <!-- ======= HEADER ======= -->
                         <div class="row mb-4">
@@ -101,7 +102,7 @@
                                     <tr>
                                         <td colspan="6" style="font-weight:bold;">Opening Balance</td>
                                         <td style="text-align:right; font-weight:bold;">
-                                            <t t-esc="formatLang(data['opening_balance'], currency_obj=data['currency'])"/>
+                                            <t t-esc="data['opening_balance']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                         </td>
                                     </tr>
                                     <t t-foreach="data['invoices']" t-as="line">
@@ -119,13 +120,13 @@
                                             <td><t t-esc="line['reference']"/></td>
                                             <td><t t-esc="line['ref']"/></td>
                                             <td style="text-align:right;">
-                                                <t t-esc="formatLang(line['amount'], currency_obj=line['currency'])"/>
+                                                <t t-esc="line['amount']" t-options='{"widget": "monetary", "display_currency": line["currency"]}'/>
                                             </td>
                                             <td style="text-align:right;">
-                                                <t t-esc="formatLang(line['paid'], currency_obj=line['currency'])"/>
+                                                <t t-esc="line['paid']" t-options='{"widget": "monetary", "display_currency": line["currency"]}'/>
                                             </td>
                                             <td style="text-align:right; font-weight:bold;">
-                                                <t t-esc="formatLang(line['amount_due'], currency_obj=line['currency'])"/>
+                                                <t t-esc="line['amount_due']" t-options='{"widget": "monetary", "display_currency": line["currency"]}'/>
                                             </td>
                                         </tr>
                                     </t>
@@ -134,13 +135,13 @@
                                     <tr>
                                         <td colspan="4" style="text-align:right; font-weight:bold;">TOTAL</td>
                                         <td style="text-align:right; font-weight:bold;">
-                                            <t t-esc="formatLang(data['total_amount'], currency_obj=data['currency'])"/>
+                                            <t t-esc="data['total_amount']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                         </td>
                                         <td style="text-align:right; font-weight:bold;">
-                                            <t t-esc="formatLang(data['total_paid'], currency_obj=data['currency'])"/>
+                                            <t t-esc="data['total_paid']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                         </td>
                                         <td style="text-align:right; font-weight:bold; color:#c0392b;">
-                                            <t t-esc="formatLang(data['total_due'], currency_obj=data['currency'])"/>
+                                            <t t-esc="data['total_due']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -165,22 +166,22 @@
                                     <tbody>
                                         <tr style="text-align:right;">
                                             <td>
-                                                <t t-esc="formatLang(data['ageing']['not_due'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['not_due']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                             <td>
-                                                <t t-esc="formatLang(data['ageing']['0_30'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['0_30']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                             <td>
-                                                <t t-esc="formatLang(data['ageing']['31_60'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['31_60']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                             <td>
-                                                <t t-esc="formatLang(data['ageing']['61_90'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['61_90']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                             <td style="color:#e74c3c;">
-                                                <t t-esc="formatLang(data['ageing']['91_plus'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['91_plus']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                             <td style="font-weight:bold; color:#c0392b;">
-                                                <t t-esc="formatLang(data['ageing']['total'], currency_obj=data['currency'])"/>
+                                                <t t-esc="data['ageing']['total']" t-options='{"widget": "monetary", "display_currency": data["currency"]}'/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -196,11 +197,12 @@
                         </div>
 
                         <!-- Page break between partners (not last) -->
-                        <t t-if="not data_last">
-                            <div style="page-break-after: always;"/>
-                        </t>
+                            <t t-if="not data_last">
+                                <div style="page-break-after: always;"/>
+                            </t>
 
-                    </div>
+                        </div>
+                    </t>
                 </t>
             </t>
         </t>

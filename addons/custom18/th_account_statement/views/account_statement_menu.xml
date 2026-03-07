@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="action_account_statement_customers" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('customer_rank', '>', 0)]</field>
+    </record>
+
+    <record id="action_account_statement_settings" model="ir.actions.act_window">
+        <field name="name">Account Statement Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'th_account_statement'}</field>
+    </record>
+
     <!-- App Root Menu -->
     <menuitem
         id="menu_th_account_statement_root"
@@ -10,18 +25,40 @@
 
     <!-- Generate Statement -->
     <menuitem
+        id="menu_th_account_statement_overview"
+        name="Statement History"
+        parent="menu_th_account_statement_root"
+        action="action_open_account_statement_overview"
+        sequence="5"/>
+
+    <menuitem
         id="menu_th_account_statement_generate"
         name="Generate Statement"
         parent="menu_th_account_statement_root"
         action="action_account_statement_wizard"
         sequence="10"/>
 
-    <!-- Statement History -->
     <menuitem
-        id="menu_th_account_statement_log"
-        name="Statement History"
+        id="menu_th_account_statement_customers"
+        name="Customers"
+        parent="menu_th_account_statement_root"
+        action="action_account_statement_customers"
+        sequence="15"/>
+
+    <!-- Delivery Logs -->
+    <menuitem
+        id="menu_th_account_statement_delivery_log"
+        name="Delivery Logs"
         parent="menu_th_account_statement_root"
         action="action_account_statement_log"
         sequence="20"/>
+
+    <menuitem
+        id="menu_th_account_statement_settings"
+        name="Settings"
+        parent="menu_th_account_statement_root"
+        action="action_account_statement_settings"
+        sequence="30"
+        groups="account.group_account_manager"/>
 
 </odoo>
