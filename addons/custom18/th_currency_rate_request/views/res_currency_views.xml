@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_currency_form_inherit_th_rate_request" model="ir.ui.view">
+        <field name="name">res.currency.form.inherit.th.rate.request</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='rate_ids']" position="before">
+                <button
+                    name="action_open_currency_rate_update_wizard"
+                    string="Request Rate Update"
+                    type="object"
+                    class="btn-primary"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
