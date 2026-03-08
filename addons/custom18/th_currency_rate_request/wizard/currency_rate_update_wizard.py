@@ -23,7 +23,8 @@ class CurrencyRateUpdateWizard(models.TransientModel):
             request_date=self.request_date,
         )
 
-        company_rate = 1.0 / quote_rate if quote_rate else 0.0
+        company_rate = quote_rate
+        inverse_company_rate = 1.0 / quote_rate if quote_rate else 0.0
 
         rate_model = self.env['res.currency.rate'].sudo()
         existing_rate = rate_model.search(
@@ -39,7 +40,7 @@ class CurrencyRateUpdateWizard(models.TransientModel):
             'name': self.request_date,
             'currency_id': target_currency.id,
             'company_id': self.company_id.id,
-            'inverse_company_rate': quote_rate,
+            'inverse_company_rate': inverse_company_rate,
             'company_rate': company_rate,
         }
 
