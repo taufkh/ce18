@@ -178,11 +178,8 @@ class PortalStatementController(http.Controller):
             return request.not_found()
 
         if file_type == "pdf":
-            pdf, _ = (
-                request.env.ref("th_account_statement.action_report_account_statement")
-                .sudo()
-                ._render_qweb_pdf(wizard.ids)
-            )
+            report = request.env.ref("th_account_statement.action_report_account_statement").sudo()
+            pdf, _ = report._render_qweb_pdf(report.report_name, res_ids=wizard.ids)
             headers = [
                 ("Content-Type", "application/pdf"),
                 ("Content-Disposition", f'attachment; filename="{filename_prefix}.pdf"'),
@@ -303,11 +300,8 @@ class PortalStatementController(http.Controller):
             return request.not_found()
 
         if file_type == "pdf":
-            pdf, _ = (
-                request.env.ref("th_account_statement.action_report_account_statement")
-                .sudo()
-                ._render_qweb_pdf(wizard.ids)
-            )
+            report = request.env.ref("th_account_statement.action_report_account_statement").sudo()
+            pdf, _ = report._render_qweb_pdf(report.report_name, res_ids=wizard.ids)
             headers = [
                 ("Content-Type", "application/pdf"),
                 ("Content-Disposition", f'inline; filename="{filename_prefix}.pdf"'),
