@@ -11,6 +11,8 @@ addons/*
 !addons/addons-community/**
 !addons/custom18/
 !addons/custom18/**
+!addons/addons-community/payroll-18.0/
+!addons/addons-community/payroll-18.0/**
 
 # Ignore generated files
 **/__pycache__/
