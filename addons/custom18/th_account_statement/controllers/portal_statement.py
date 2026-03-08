@@ -25,8 +25,16 @@ class PortalStatementController(http.Controller):
             return datetime.strptime(value, "%Y-%m-%d").date()
 
     def _build_wizard(
-        self, partner, statement_type, period_filter="custom", date_from=None, date_to=None
+        self, partner, statement_type, period_filter="this_month", date_from=None, date_to=None
     ):
+        engine = request.env["account.statement.engine"].sudo()
+        if not date_from or not date_to:
+            resolved_from, resolved_to = engine._get_period_date_range(
+                period_filter, date_from, date_to
+            )
+            date_from = date_from or resolved_from
+            date_to = date_to or resolved_to
+
         return (
             request.env["account.statement.wizard"]
             .sudo()
